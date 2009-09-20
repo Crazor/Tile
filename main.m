@@ -18,10 +18,9 @@
  */
 
 #import <Cocoa/Cocoa.h>
-
-@class AreaController;
-@class WindowController;
-@class EventController;
+#import "AreaController.h"
+#import "WindowController.h"
+#import "EventController.h"
 
 int main(int argc, char *argv[])
 {
