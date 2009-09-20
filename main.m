@@ -36,6 +36,8 @@ int main(int argc, char *argv[])
 	EventController *eventController = [[EventController alloc] init];
 	[eventController awakeFromNib];
 	
+	[[NSApplication sharedApplication] run];
+	
 	[autoreleasePool release];
-    return NSApplicationMain(argc,  (const char **) argv);
+	return 0;
 }
