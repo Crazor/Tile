@@ -78,13 +78,11 @@ static AreaController *sharedInstance;
 		}
 		
 		NSLog(@"Screen %d: Resolution: %@ %@", i, [[aScreen deviceDescription] objectForKey:NSDeviceSize], mainScreen);
-		NSLog(@"Frame: %@ %@", NSStringFromSize([aScreen frame].size), NSStringFromPoint([aScreen frame].origin));
-		
+		NSLog(@"Visible Frame: %@ %@", NSStringFromSize([aScreen visibleFrame].size), NSStringFromPoint([aScreen visibleFrame].origin));
+
 		if (i == 0)
 		{
-			NSRect rect = [aScreen frame];
-			rect.origin.y += 22;
-			rect.size.height -= 22;
+			NSRect rect = [aScreen visibleFrame];
 			NSLog(@"Rect: %@", NSStringFromRect(rect));
 			toplevelArea = [[Area alloc] initWithRect:rect];
 		}
