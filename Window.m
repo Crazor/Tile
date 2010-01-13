@@ -157,25 +157,25 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)moved
 {
-	// TODO: Rework this section with the corresponding toplevelArea's rect
 	// TODO: Pull out some constants
+	// TODO: Get notifications about mouse movements in order to allow drag-to-maximize even when only moving the mouse vertically
 	
 	NSPoint mouse = [NSEvent mouseLocation];
-	NSRect screen = [[[AreaController sharedInstance] screen] frame];
+	//NSRect screen = [[[AreaController sharedInstance] screen] frame];
+	NSRect screen = [[[AreaController sharedInstance] toplevelArea] rect];
 	
 	// The mouse coordinate system has its origin at the lower left corner of the screen
-	mouse.y = screen.size.height - mouse.y;
+	mouse.y = screen.size.height - mouse.y + 22;
 	//NSLog(@"%@: Origin: %@, Mouse: %@", [self description], NSStringFromPoint([self origin]), NSStringFromPoint(mouse));
 	
 	if ([self locked])
 	{
-		//NSLog(@"Window is locked! Restoring locked position.");
 		[self restoreLockedPosition];
 		return;
 	}
 
 	// Drag to maximize
-	if ([self origin].y == 22 && mouse.y < 22 && !maximized)
+	if ([self origin].y <= 22 && mouse.y < 22 && !maximized)
 	{
 		[self maximize];
 		return;
@@ -187,13 +187,15 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 		return;
 	}	
 	
+	/*
 	if (NSEqualPoints([self origin], screen.origin))
 	{
 		//NSLog(@"Ignoring spurious move event!");
 		return;
 	}
+	*/
 	
-	// Snap to border
+	// Snap to left edge
 	if (abs([self origin].x) <= (screen.origin.x + 15))
 	{
 		NSPoint origin = [self origin];
@@ -201,6 +203,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 		[self setOrigin:origin];
 	}
 	
+	// right edge
 	if (([self origin].x + [self rect].size.width) >= (screen.origin.x + screen.size.width - 15))
 	// The following is too generic. Multi-monitor systems can have all kinds of layouts.
 	//if (([self origin].x + [self rect].size.width) >= (screen.origin.x + screen.size.width - 15) && ([self origin].x + [self rect].size.width) <= (screen.origin.x + screen.size.width + 15))
@@ -210,6 +213,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 		[self setOrigin:origin];
 	}
 	
+	// top edge
 	if ([self origin].y <= (screen.origin.y + 22 + 15))
 	{
 		NSPoint origin = [self origin];
@@ -217,10 +221,11 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 		[self setOrigin:origin];
 	}
 		
-	if (([self origin].y + [self size].height) >= (screen.origin.y + screen.size.height - 15))
+	// bottom edge
+	if (([self origin].y + [self size].height) >= (screen.origin.y + screen.size.height - 15 + 22))
 	{
 		NSPoint origin = [self origin];
-		origin.y = screen.size.height - [self size].height;
+		origin.y = screen.size.height - [self size].height + 22;
 		[self setOrigin:origin];
 	}
 }
