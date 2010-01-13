@@ -54,21 +54,24 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 {
 	Window *self = (Window *)refcon;
 	
-	if ([(NSString *)notification isEqualToString:@"AXWindowMoved"])
+	if ([[self element] isEqual:[GTMAXUIElement elementWithElement:elementRef]])
 	{
-		[self moved];
-	}
-	if ([(NSString *)notification isEqualToString:@"AXWindowResized"])
-	{
-		[self resized];
-	}
-	if ([(NSString *)notification isEqualToString:@"AXWindowMiniaturized"])
-	{
-		[self miniaturized];
-	}
-	if ([(NSString *)notification isEqualToString:@"AXWindowDeminiaturized"])
-	{
-		[self deminiaturized];
+		if ([(NSString *)notification isEqualToString:@"AXWindowMoved"])
+		{
+			[self moved];
+		}
+		if ([(NSString *)notification isEqualToString:@"AXWindowResized"])
+		{
+			[self resized];
+		}
+		if ([(NSString *)notification isEqualToString:@"AXWindowMiniaturized"])
+		{
+			[self miniaturized];
+		}
+		if ([(NSString *)notification isEqualToString:@"AXWindowDeminiaturized"])
+		{
+			[self deminiaturized];
+		}
 	}
 }
 
@@ -112,7 +115,6 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)registerAXObserver
 {
-	//NSLog(@"Registering Window Observer for \"%@\"", self);
 	if (AXObserverCreate((pid_t)[[[self application] pid] longValue], axObserverCallback, &observer))
 	{
 		NSLog(@"Error creating AXObserver for %@", self);
@@ -163,6 +165,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	
 	// The mouse coordinate system has its origin at the lower left corner of the screen
 	mouse.y = screen.size.height - mouse.y;
+	//NSLog(@"%@: Origin: %@, Mouse: %@", [self description], NSStringFromPoint([self origin]), NSStringFromPoint(mouse));
 	
 	if ([self locked])
 	{
