@@ -27,6 +27,8 @@
 
 static AreaController *sharedInstance;
 
+
+// TODO: Listen for NSApplicationDidChangeScreenParametersNotification, which then reinitializes the ToplevelArea
 + (void)initialize
 {
 	static BOOL initialized = NO;

@@ -26,6 +26,9 @@
 @synthesize children;
 @synthesize rect;
 
+
+// Especially the ToplevelArea should really really acquire it's rect and origin dynamically from NSScreen, since
+// they are subject to changes, e.g. when the Dock is switched from/to autohide.
 - (id)initWithRect:(NSRect)r
 {
 	if (self = [super init])
