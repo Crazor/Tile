@@ -120,6 +120,9 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 		NSLog(@"Error creating AXObserver for %@", self);
 		return;
 	}
+
+	CFRunLoopAddSource([[NSRunLoop currentRunLoop] getCFRunLoop], AXObserverGetRunLoopSource(observer), kCFRunLoopDefaultMode);
+
 	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowMovedNotification, self))
 	{
 		NSLog(@"Error adding kAXWindowMovedNotification for %@", self);
@@ -140,7 +143,6 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 		NSLog(@"Error adding kAXWindowDeminiaturizedNotification for %@", self);
 		return;
 	}
-	CFRunLoopAddSource([[NSRunLoop currentRunLoop] getCFRunLoop], AXObserverGetRunLoopSource(observer), kCFRunLoopDefaultMode);
 }
 
 - (void)unregisterAXObserver
