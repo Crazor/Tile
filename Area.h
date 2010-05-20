@@ -35,6 +35,8 @@
 - (int)width;
 - (int)height;
 
+- (void)drawOverlay;
+
 - (void)addWindow:(Window *)w;
 - (void)split:(BOOL)vertically;
 

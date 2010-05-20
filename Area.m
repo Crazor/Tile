@@ -26,6 +26,8 @@
 @synthesize children;
 @synthesize rect;
 
+static NSWindow *overlay;
+
 
 // Especially the ToplevelArea should really really acquire it's rect and origin dynamically from NSScreen, since
 // they are subject to changes, e.g. when the Dock is switched from/to autohide.
@@ -36,6 +38,7 @@
 		children = [[NSArray alloc] init];
 		rect = r;
 		NSLog(@"Creating Area with origin: %@, size: %@", NSStringFromPoint(r.origin), NSStringFromSize(r.size));
+		[self drawOverlay];
 	}
 	return self;
 }
@@ -54,6 +57,22 @@
 - (int)height
 {
 	return [self rect].size.height;
+}
+
+- (void)drawOverlay
+{
+	NSRect contentRect = [NSWindow contentRectForFrameRect:rect styleMask:NSBorderlessWindowMask];
+	overlay = [[NSWindow alloc] initWithContentRect:contentRect
+												   styleMask:NSBorderlessWindowMask
+													 backing:NSBackingStoreBuffered
+													   defer:NO];
+	[overlay setBackgroundColor:[NSColor lightGrayColor]];
+	[overlay setOpaque:NO];
+	[overlay setLevel:NSMainMenuWindowLevel + 1]; //Alternative: NSFloatingWindowLevel
+	[overlay setAlphaValue:0.4];
+	[overlay setHasShadow:NO];
+	[overlay setIgnoresMouseEvents:YES];
+	[overlay makeKeyAndOrderFront:overlay];
 }
 
 - (void)addWindow:(Window *)w
