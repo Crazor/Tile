@@ -25,6 +25,7 @@
 int main(int argc, char *argv[])
 {
 	NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
+	[NSApplication sharedApplication];
 	
 	AreaController *areaController = [[AreaController alloc] init];
 	[areaController awakeFromNib];
@@ -35,7 +36,7 @@ int main(int argc, char *argv[])
 	EventController *eventController = [[EventController alloc] init];
 	[eventController awakeFromNib];
 	
-	[[NSApplication sharedApplication] run];
+	[NSApp run];
 	
 	[autoreleasePool release];
 	return 0;
