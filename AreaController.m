@@ -80,7 +80,7 @@ static AreaController *sharedInstance;
 		}
 		
 		NSLog(@"Screen %d: Resolution: %@ %@", i, [[aScreen deviceDescription] objectForKey:NSDeviceSize], mainScreen);
-		NSLog(@"Visible Frame: %@ %@", NSStringFromSize([aScreen visibleFrame].size), NSStringFromPoint([aScreen visibleFrame].origin));
+		NSLog(@"Visible Frame: %@ %@", NSStringFromPoint([aScreen visibleFrame].origin), NSStringFromSize([aScreen visibleFrame].size));
 
 		if (i == 0)
 		{
