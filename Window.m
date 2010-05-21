@@ -163,21 +163,22 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	// TODO: Get notifications about mouse movements in order to allow drag-to-maximize even when only moving the mouse vertically
 	
 	NSPoint mouse = [NSEvent mouseLocation];
-	//NSRect screen = [[[AreaController sharedInstance] screen] frame];
 	NSRect screen = [[[AreaController sharedInstance] toplevelArea] rect];
 	
 	// The mouse coordinate system has its origin at the lower left corner of the screen
 	mouse.y = screen.size.height - mouse.y + 22;
 	//NSLog(@"%@: Origin: %@, Mouse: %@", [self description], NSStringFromPoint([self origin]), NSStringFromPoint(mouse));
-	
+
 	if ([self locked])
 	{
 		[self restoreLockedPosition];
 		return;
 	}
 
+	return;
+
 	// Drag to maximize
-	if ([self origin].y <= 22 && mouse.y < 22 && !maximized)
+	if ([self origin].y <= screen.origin.y && mouse.y <= screen.origin.y && !maximized)
 	{
 		[self maximize];
 		return;
@@ -211,23 +212,23 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	//if (([self origin].x + [self rect].size.width) >= (screen.origin.x + screen.size.width - 15) && ([self origin].x + [self rect].size.width) <= (screen.origin.x + screen.size.width + 15))
 	{
 		NSPoint origin = [self origin];
-		origin.x = screen.size.width - [self size].width;
+		origin.x = screen.size.width - [self size].width + screen.origin.x;
 		[self setOrigin:origin];
 	}
 	
 	// top edge
-	if ([self origin].y <= (screen.origin.y + 22 + 15))
+	if ([self origin].y <= (screen.origin.y + 15))
 	{
 		NSPoint origin = [self origin];
-		origin.y = screen.origin.y + 22;
+		origin.y = screen.origin.y;
 		[self setOrigin:origin];
 	}
 		
 	// bottom edge
-	if (([self origin].y + [self size].height) >= (screen.origin.y + screen.size.height - 15 + 22))
+	if (([self origin].y + [self size].height) >= (screen.origin.y + screen.size.height - 15))
 	{
 		NSPoint origin = [self origin];
-		origin.y = screen.size.height - [self size].height + 22;
+		origin.y = screen.size.height - [self size].height + screen.origin.y;
 		[self setOrigin:origin];
 	}
 }
