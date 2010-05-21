@@ -18,8 +18,9 @@
  */
 
 #import "Area.h"
+#import "Window.h"
 
-@class Window;
+//@class Window;
 
 @implementation Area
 
@@ -35,7 +36,7 @@ static NSWindow *overlay;
 {
 	if (self = [super init])
 	{
-		children = [[NSArray alloc] init];
+		children = [[NSMutableArray alloc] init];
 		rect = r;
 		NSLog(@"Creating Area with origin: %@, size: %@", NSStringFromPoint(r.origin), NSStringFromSize(r.size));
 		[self drawOverlay];
@@ -77,10 +78,27 @@ static NSWindow *overlay;
 
 - (void)addWindow:(Window *)w
 {
+	[children addObject:w];
+	[self resizeWindows];
 }
 
-- (void)split:(BOOL)vertically
+- (void)resizeWindows
 {
+	int widthPerWindow = [self width] / [children count];
+	int i = 0;
+	for (Window *w in children)
+	{
+		NSSize size;
+		size.width = widthPerWindow;
+		size.height = [self height];
+
+		NSPoint origin = rect.origin;
+		origin.x += i++ * widthPerWindow;
+
+		NSLog(@"Resizing window %@ to origin %@ size %@", w, NSStringFromPoint(origin), NSStringFromSize(size));
+		[w setSize:size];
+		[w setOrigin:origin];
+	}
 }
 
 @end

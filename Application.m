@@ -20,6 +20,8 @@
 #import "Application.h"
 #import "Window.h"
 #import "GTMAXUIElement.h"
+#import "AreaController.h"
+#import "Area.h"
 
 static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef, CFStringRef notification, void *refcon)
 {
@@ -118,9 +120,10 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)windowCreated:(GTMAXUIElement *)e
 {
+	//NSLog(@"Window created: %@", e);
 	Window *w = [[Window alloc] initWithElement:e andApplication:self];
 	[[self windows] addObject:w];
-	[w release];
+	[[[AreaController sharedInstance] toplevelArea] addWindow:w];
 }
 
 - (void)windowDestroyed:(GTMAXUIElement *)e

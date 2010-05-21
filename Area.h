@@ -22,12 +22,11 @@
 @class Window;
 
 @interface Area : NSObject {
-	NSArray *children;
+	NSMutableArray *children;
 	NSRect	rect;
-	BOOL	isVertical;
 }
 
-@property(readonly) NSArray *children;
+@property(readonly) NSMutableArray *children;
 @property(readonly) NSRect rect;
 
 - (id)initWithRect:(NSRect)rect;
@@ -38,6 +37,6 @@
 - (void)drawOverlay;
 
 - (void)addWindow:(Window *)w;
-- (void)split:(BOOL)vertically;
+- (void)resizeWindows;
 
 @end
