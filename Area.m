@@ -34,7 +34,7 @@ static NSWindow *overlay;
 // they are subject to changes, e.g. when the Dock is switched from/to autohide.
 - (id)initWithRect:(NSRect)r
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		children = [[NSMutableArray alloc] init];
 		rect = r;

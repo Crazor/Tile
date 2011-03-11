@@ -49,7 +49,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (id)initWithDict:(NSDictionary *)appDict
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		[self setWindows:[NSMutableArray array]];
 		
@@ -128,17 +128,12 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)windowDestroyed:(GTMAXUIElement *)e
 {
-	// TODO: Es ist unnötig, wegen jedem Element die Fensterliste zu durchsuchen.
-	// Besser wäre es, vorab zu prüfen, ob es sich bei dem zerstörten Element
-	// tatsächlich um ein Fenster handelte (geht das überhaupt?)
-	
-	// TODO: Fenster releasen
-	
 	for (Window *w in [self windows])
 	{
 		if ([[w element] isEqualTo:e])
 		{
 			[[self windows] removeObject:w];
+            
 			break;
 		}
 	}

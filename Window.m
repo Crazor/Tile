@@ -86,7 +86,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (id)initWithElement:(GTMAXUIElement *)e andApplication:(Application *)a
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		element = [e retain];
 		application = [a retain];
