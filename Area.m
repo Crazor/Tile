@@ -30,8 +30,9 @@
 static NSWindow *overlay;
 
 
-// Especially the ToplevelArea should really really acquire it's rect and origin dynamically from NSScreen, since
-// they are subject to changes, e.g. when the Dock is switched from/to autohide.
+// TODO: Especially the ToplevelArea should really really acquire it's rect and
+// origin dynamically from NSScreen, since they are subject to changes, e.g.
+// when the Dock is switched from/to autohide.
 - (id)initWithRect:(NSRect)r
 {
 	if ((self = [super init]))
@@ -39,7 +40,6 @@ static NSWindow *overlay;
 		children = [[NSMutableArray alloc] init];
 		rect = r;
 		NSLog(@"Creating Area with origin: %@, size: %@", NSStringFromPoint(r.origin), NSStringFromSize(r.size));
-		[self drawOverlay];
 	}
 	return self;
 }
@@ -85,19 +85,20 @@ static NSWindow *overlay;
 - (void)resizeWindows
 {
 	int widthPerWindow = [self width] / [children count];
-	int i = 0;
+	
+    int i = 0;
 	for (Window *w in children)
 	{
-		NSSize size;
-		size.width = widthPerWindow;
-		size.height = [self height];
+		NSRect newRect;
+        newRect.size.width = widthPerWindow;
+		newRect.size.height = [self height];
 
-		NSPoint origin = rect.origin;
-		origin.x += i++ * widthPerWindow;
+		NSPoint newOrigin = rect.origin;
+		newOrigin.x += i++ * widthPerWindow;
+        
+        newRect.origin = newOrigin;
 
-		NSLog(@"Resizing window %@ to origin %@ size %@", w, NSStringFromPoint(origin), NSStringFromSize(size));
-		[w setSize:size];
-		[w setOrigin:origin];
+        [w setRect:newRect];
 	}
 }
 
