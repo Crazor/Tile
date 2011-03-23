@@ -37,6 +37,8 @@
 - (void)drawOverlay;
 
 - (void)addWindow:(Window *)w;
+- (void)removeWindow:(Window *)w;
+
 - (void)resizeWindows;
 
 @end

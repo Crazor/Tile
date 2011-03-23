@@ -19,6 +19,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "Area.h"
+
 @class GTMAXUIElement;
 @class Application;
 
@@ -30,6 +32,7 @@
 	NSRect			lockedRect;
 	NSRect			restoredRect;
 	BOOL			maximized;
+    Area            *area;
 }
 
 @property(readonly)	GTMAXUIElement	*element;
@@ -38,7 +41,7 @@
 @property(readonly) NSRect			lockedRect;
 @property(readonly) NSRect			restoredRect;
 @property(readonly) BOOL			maximized;
-
+@property(assign)   Area *area;
 
 - (id)initWithElement:(GTMAXUIElement *)e andApplication:(Application *)a;
 - (NSArray *)attributes;
@@ -46,6 +49,7 @@
 - (void)resized;
 - (void)miniaturized;
 - (void)deminiaturized;
+- (void)destroyed;
 - (void)registerAXObserver;
 - (void)unregisterAXObserver;
 - (NSPoint)origin;

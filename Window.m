@@ -72,6 +72,10 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 		{
 			[self deminiaturized];
 		}
+        if ([(NSString *)notification isEqualToString:@"AXUIElementDestroyed"])
+		{
+			[self destroyed];
+		}
 	}
 }
 
@@ -83,6 +87,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 @synthesize lockedRect;
 @synthesize maximized;
 @synthesize restoredRect;
+@synthesize area;
 
 - (id)initWithElement:(GTMAXUIElement *)e andApplication:(Application *)a
 {
@@ -143,6 +148,11 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 		NSLog(@"Error adding kAXWindowDeminiaturizedNotification for %@", self);
 		return;
 	}
+	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXUIElementDestroyedNotification, self))
+	{
+		NSLog(@"Error adding kAXUIElementDestroyedNotification for %@", self);
+		return;
+	}
 }
 
 - (void)unregisterAXObserver
@@ -152,6 +162,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	AXObserverRemoveNotification(observer, [[[self application] element] element], kAXWindowResizedNotification);
 	AXObserverRemoveNotification(observer, [[[self application] element] element], kAXWindowMiniaturizedNotification);
 	AXObserverRemoveNotification(observer, [[[self application] element] element], kAXWindowDeminiaturizedNotification);
+    AXObserverRemoveNotification(observer, [[[self application] element] element], kAXUIElementDestroyedNotification);
 }
 
 
@@ -159,6 +170,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)moved
 {
+#if 0
 	// TODO: Pull out some constants
 	// TODO: Get notifications about mouse movements in order to allow drag-to-maximize even when only moving the mouse vertically
 	
@@ -231,6 +243,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 		origin.y = screen.size.height - [self size].height + screen.origin.y;
 		[self setOrigin:origin];
 	}
+#endif
 }
 
 - (void)resized
@@ -252,6 +265,11 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	NSLog(@"Window \"%@\" deminiaturized", self);
 }
 
+- (void)destroyed
+{
+    [area removeWindow:self];
+	NSLog(@"Window \"%@\" destroyed", self);
+}
 
 // Attributes
 

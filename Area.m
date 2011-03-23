@@ -64,9 +64,9 @@ static NSWindow *overlay;
 {
 	NSRect contentRect = [NSWindow contentRectForFrameRect:rect styleMask:NSBorderlessWindowMask];
 	overlay = [[NSWindow alloc] initWithContentRect:contentRect
-												   styleMask:NSBorderlessWindowMask
-													 backing:NSBackingStoreBuffered
-													   defer:NO];
+                                          styleMask:NSBorderlessWindowMask
+                                            backing:NSBackingStoreBuffered
+                                              defer:NO];
 	[overlay setBackgroundColor:[NSColor lightGrayColor]];
 	[overlay setOpaque:NO];
 	[overlay setLevel:NSMainMenuWindowLevel + 1]; //Alternative: NSFloatingWindowLevel
@@ -79,7 +79,14 @@ static NSWindow *overlay;
 - (void)addWindow:(Window *)w
 {
 	[children addObject:w];
+    [w setArea:self];
 	[self resizeWindows];
+}
+
+- (void)removeWindow:(Window *)w
+{
+    [children removeObject:w];
+    [self resizeWindows];
 }
 
 - (void)resizeWindows
@@ -92,12 +99,12 @@ static NSWindow *overlay;
 		NSRect newRect;
         newRect.size.width = widthPerWindow;
 		newRect.size.height = [self height];
-
+        
 		NSPoint newOrigin = rect.origin;
 		newOrigin.x += i++ * widthPerWindow;
         
         newRect.origin = newOrigin;
-
+        
         [w setRect:newRect];
 	}
 }
