@@ -91,6 +91,9 @@ static NSWindow *overlay;
 
 - (void)resizeWindows
 {
+    if ([children count] == 0)
+        return;
+    
 	int widthPerWindow = [self width] / [children count];
 	
     int i = 0;
