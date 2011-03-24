@@ -26,11 +26,12 @@
 
 @synthesize children;
 @synthesize rect;
+@synthesize verticallySplit;
 
 static NSWindow *overlay;
 
 
-// TODO: Especially the ToplevelArea should really really acquire it's rect and
+// TODO: Especially the ToplevelArea should really really acquire its rect and
 // origin dynamically from NSScreen, since they are subject to changes, e.g.
 // when the Dock is switched from/to autohide.
 - (id)initWithRect:(NSRect)r
@@ -94,22 +95,44 @@ static NSWindow *overlay;
     if ([children count] == 0)
         return;
     
-	int widthPerWindow = [self width] / [children count];
-	
-    int i = 0;
-	for (Window *w in children)
-	{
-		NSRect newRect;
-        newRect.size.width = widthPerWindow;
-		newRect.size.height = [self height];
+    if (verticallySplit)
+    {
+        int heightPerWindow = [self height] / [children count];
         
-		NSPoint newOrigin = rect.origin;
-		newOrigin.x += i++ * widthPerWindow;
+        int i = 0;
+        for (Window *w in children)
+        {
+            NSRect newRect;
+            newRect.size.width = [self width];
+            newRect.size.height = heightPerWindow;
+            
+            NSPoint newOrigin = rect.origin;
+            newOrigin.y += i++ * heightPerWindow;
+            
+            newRect.origin = newOrigin;
+            
+            [w setRect:newRect];
+        }
+    }
+    else
+    {
+        int widthPerWindow = [self width] / [children count];
         
-        newRect.origin = newOrigin;
-        
-        [w setRect:newRect];
-	}
+        int i = 0;
+        for (Window *w in children)
+        {
+            NSRect newRect;
+            newRect.size.width = widthPerWindow;
+            newRect.size.height = [self height];
+            
+            NSPoint newOrigin = rect.origin;
+            newOrigin.x += i++ * widthPerWindow;
+            
+            newRect.origin = newOrigin;
+            
+            [w setRect:newRect];
+        }
+    }
 }
 
 @end

@@ -22,12 +22,14 @@
 @class Window;
 
 @interface Area : NSObject {
-	NSMutableArray *children;
-	NSRect	rect;
+	NSMutableArray  *children;
+	NSRect          rect;
+    BOOL            verticallySplit;
 }
 
-@property(readonly) NSMutableArray *children;
-@property(readonly) NSRect rect;
+@property(readonly)     NSMutableArray  *children;
+@property(readonly)     NSRect          rect;
+@property(readwrite)    BOOL            verticallySplit;
 
 - (id)initWithRect:(NSRect)rect;
 

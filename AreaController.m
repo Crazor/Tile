@@ -87,6 +87,7 @@ static AreaController *sharedInstance;
 			NSRect rect = [aScreen visibleFrame];
 			NSLog(@"Rect: %@", NSStringFromRect(rect));
 			toplevelArea = [[Area alloc] initWithRect:rect];
+            [toplevelArea setVerticallySplit:YES];
 		}
 		else
 		{
