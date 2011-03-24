@@ -1,7 +1,7 @@
 /*
  * This file is part of the Tile project.
  *
- * Copyright 2009, 2010 Crazor <crazor@gmail.com>
+ * Copyright 2009-2011 Crazor <crazor@gmail.com>
  *
  * Tile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,6 @@
 
 #import "Area.h"
 #import "Window.h"
-
-//@class Window;
 
 @implementation Area
 
