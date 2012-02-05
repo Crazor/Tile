@@ -54,6 +54,16 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 	[self setSelector:@selector(quit)					ofTarget:self	forActionID:12]; // Q
 	[self setSelector:@selector(maximizeCurrentWindow)	ofTarget:wc		forActionID:46]; // M
 	[self setSelector:@selector(centerCurrentWindow)	ofTarget:wc		forActionID: 8]; // C
+	
+	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self 
+														   selector: @selector(userDefaultsDidChange:)
+															   name: NSUserDefaultsDidChangeNotification
+															 object: NULL];
+}
+
+- (void)userDefaultsDidChange: (NSNotification *)notification
+{
+	NSLog(@"User Defaults did change. Name: %@", [notification name]);
 }
 
 - (void)registerLeaderHandler
