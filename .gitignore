@@ -1,3 +1,6 @@
 build/
 *.swp
 .DS_Store
+DerivedData
+Tile.xcodeproj/project.xcworkspace
+Tile.xcodeproj/xcuserdata
