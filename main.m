@@ -17,7 +17,6 @@
  * along with Tile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Cocoa/Cocoa.h>
 #import "AreaController.h"
 #import "WindowController.h"
 #import "EventController.h"

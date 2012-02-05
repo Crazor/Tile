@@ -17,8 +17,6 @@
  * along with Tile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Cocoa/Cocoa.h>
-
 #import "Area.h"
 
 @class GTMAXUIElement;

@@ -17,7 +17,6 @@
  * along with Tile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import <Cocoa/Cocoa.h>
 #import <Carbon/Carbon.h>
 
 #define EVENT_ID_MAX	0x80
