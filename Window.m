@@ -120,7 +120,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)registerAXObserver
 {
-	if (AXObserverCreate((pid_t)[[[self application] pid] longValue], axObserverCallback, &observer))
+	if (AXObserverCreate([[self application] pid], axObserverCallback, &observer))
 	{
 		NSLog(@"Error creating AXObserver for %@", self);
 		return;

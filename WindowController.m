@@ -100,10 +100,10 @@ static WindowController *sharedInstance;
 {
 	// Populate appList with running apps
 	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-	NSDictionary *appDict;
-	for (appDict in [ws launchedApplications])
+	NSRunningApplication *runningApplication;
+	for (runningApplication in [ws runningApplications])
 	{
-		[[self applications] addObject:[[Application alloc] initWithDict:appDict]];
+		[[self applications] addObject:[[Application alloc] initWithRunningApplication:runningApplication]];
 	}
 }
 
@@ -129,7 +129,8 @@ static WindowController *sharedInstance;
 
 - (void)appLaunched:(NSNotification *)notification
 {
-	[[self applications] addObject:[[Application alloc] initWithDict:[notification userInfo]]];
+	[[self applications] addObject:[[Application alloc] initWithRunningApplication:[[notification userInfo] objectForKey:@"NSWorkspaceApplicationKey"]]];
+	NSLog(@"appLaunched %@", [[notification userInfo] objectForKey:@"NSWorkspaceApplicationKey"]);
 }
 
 - (void)appTerminated:(NSNotification *)notification

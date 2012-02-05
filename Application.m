@@ -47,16 +47,15 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 @synthesize element;
 @synthesize windows;
 
-- (id)initWithDict:(NSDictionary *)appDict
+- (id)initWithRunningApplication:(NSRunningApplication *)runningApplication
 {
 	if ((self = [super init]))
 	{
 		[self setWindows:[NSMutableArray array]];
-		
-		[self setPid:		[appDict objectForKey:@"NSApplicationProcessIdentifier"]];
-		[self setIdentifier:[appDict objectForKey:@"NSApplicationBundleIdentifier"]];
-		[self setName:		[appDict objectForKey:@"NSApplicationName"]];
-		[self setElement:	[GTMAXUIElement elementWithProcessIdentifier:(pid_t)[pid longValue]]];
+		[self setPid:		[runningApplication processIdentifier]];
+		[self setIdentifier:[runningApplication bundleIdentifier]];
+		[self setName:		[runningApplication	localizedName]];
+		[self setElement:	[GTMAXUIElement elementWithProcessIdentifier:pid]];
 		
 		for (GTMAXUIElement *e in [[self element] accessibilityAttributeValue:(NSString *)kAXWindowsAttribute])
 		{
@@ -75,7 +74,6 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	[self unregisterAXObserver];
 	[[self identifier]	release];
 	[[self name]		release];
-	[[self pid]			release];
 	[[self element]		release];
 	[[self windows]		release];
 	
@@ -84,7 +82,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)registerAXObserver
 {
-	if (AXObserverCreate((pid_t)[[self pid] longValue], axObserverCallback, &observer))
+	if (AXObserverCreate(pid, axObserverCallback, &observer))
 	{
 		NSLog(@"Error creating AXObserver for %@", [self identifier]);
 		return;

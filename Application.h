@@ -24,18 +24,18 @@
 	AXObserverRef	observer;
 	NSString		*identifier;
 	NSString		*name;
-	NSNumber		*pid;
+	pid_t			pid;
 	GTMAXUIElement	*element;
 	NSMutableArray	*windows;
 }
 
 @property(copy)		NSString		*identifier;
 @property(copy)		NSString		*name;
-@property(assign)	NSNumber		*pid;
+@property(assign)	pid_t			pid;
 @property(retain)	GTMAXUIElement	*element;
 @property(retain)	NSMutableArray	*windows;
 
-- (id)initWithDict:(NSDictionary *)appDict;
+- (id)initWithRunningApplication:(NSRunningApplication *)runningApplication;
 - (NSArray *)attributes;
 - (void)registerAXObserver;
 - (void)unregisterAXObserver;
