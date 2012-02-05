@@ -63,7 +63,7 @@ static AreaController *sharedInstance;
 - (void)discoverScreens
 {
 	NSArray *screens = [NSScreen screens];
-	NSLog(@"Found %d screens.", [screens count]);
+	NSLog(@"Found %lu screens.", [screens count]);
 
 	for (int i = 0; i < [screens count]; i++)
 	{
