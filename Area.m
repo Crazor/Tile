@@ -75,20 +75,20 @@ static NSWindow *overlay;
 	[overlay makeKeyAndOrderFront:overlay];
 }
 
-- (void)addWindow:(Window *)w
+- (void)addChild:(Window *)w
 {
 	[children addObject:w];
     [w setArea:self];
-	[self resizeWindows];
+	[self resizeChildren];
 }
 
-- (void)removeWindow:(Window *)w
+- (void)removeChild:(Window *)w
 {
     [children removeObject:w];
-    [self resizeWindows];
+    [self resizeChildren];
 }
 
-- (void)resizeWindows
+- (void)resizeChildren
 {
     if ([children count] == 0)
         return;

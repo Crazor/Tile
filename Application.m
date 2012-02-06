@@ -121,7 +121,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	//NSLog(@"Window created: %@", e);
 	Window *w = [[Window alloc] initWithElement:e andApplication:self];
 	[[self windows] addObject:w];
-	[[[AreaController sharedInstance] toplevelArea] addWindow:w];
+	[[[AreaController sharedInstance] toplevelArea] addChild:w];
 }
 
 - (void)windowDestroyed:(GTMAXUIElement *)e

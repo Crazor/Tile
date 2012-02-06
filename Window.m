@@ -266,7 +266,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)destroyed
 {
-    [area removeWindow:self];
+    [area removeChild:self];
 	NSLog(@"Window \"%@\" destroyed", self);
 }
 
