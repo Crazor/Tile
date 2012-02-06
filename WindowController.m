@@ -64,25 +64,22 @@ static WindowController *sharedInstance;
 	if (!AXAPIEnabled())
 	{
 		NSLog(@"Please enable \"Access for assistive devices\" in System Preferences");
-		[[NSApplication sharedApplication] terminate:self];
-
-		// The following does not work without a MainMenu.nib:
-		/*
-		int ret = NSRunAlertPanel (@"This program requires that the Accessibility API be enabled. Would you like me to launch System Preferences so that you can turn on \"Enable access for assistive devices\".", @"", @"OK", @"Quit", @"Cancel");
+		
+		int ret = NSRunAlertPanel(@"This program requires that the Accessibility API be enabled.", @"Would you like to launch System Preferences so that you can turn on \"Enable access for assistive devices\"?", @"OK", @"Cancel", @"");
 		
 		switch (ret)
 		{
 			case NSAlertDefaultReturn:
 				[[NSWorkspace sharedWorkspace] openFile:@"/System/Library/PreferencePanes/UniversalAccessPref.prefPane"];
+				[NSApp terminate:self];
 				break;
 			case NSAlertAlternateReturn:
 				[NSApp terminate:self];
-				return;
-			case NSAlertOtherReturn: // just continue
-			default:
+				break;
+			case NSAlertOtherReturn:
+				[NSApp terminate:self];
 				break;
 		}
-		 */
 	}
 		
 	[self populateAppList];
