@@ -250,7 +250,6 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 {
 	if ([self locked])
 	{
-		//NSLog(@"Window is locked! Restoring locked size.");
 		[self restoreLockedSize];
 	}
 }
@@ -379,10 +378,12 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 - (void)restore
 {
 	NSRect rect = [self restoredRect];
-	if (rect.origin.y == 22)
+	/*
+	 if (rect.origin.y == 22)
 	{
 		rect.origin.y = 23;
 	}
+	 */
 	[self setRect:rect];
 	
 	maximized = NO;

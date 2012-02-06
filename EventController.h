@@ -27,8 +27,6 @@
 	EventHotKeyRef				hotKeyRef;
 	EventHotKeyRef				keyRef[0x80];
 	BOOL						keyHandlersRegistered;
-	//NSPointerArray				*eventSelectors;
-	//NSPointerArray				*eventTargets;
 	SEL							eventSelectors[EVENT_ID_MAX];
 	id							eventTargets[EVENT_ID_MAX];
 }
