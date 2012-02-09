@@ -80,6 +80,16 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 }
 
 @implementation Window
+{
+	AXObserverRef	observer;
+	GTMAXUIElement	*element;
+	Application		*application;
+	BOOL			locked;
+	NSRect			lockedRect;
+	NSRect			restoredRect;
+	BOOL			maximized;
+    Area            *area;
+}
 
 @synthesize	element;
 @synthesize	application;

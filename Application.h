@@ -20,14 +20,7 @@
 @class Window;
 @class GTMAXUIElement;
 
-@interface Application : NSObject {
-	AXObserverRef	observer;
-	NSString		*identifier;
-	NSString		*name;
-	pid_t			pid;
-	GTMAXUIElement	*element;
-	NSMutableArray	*windows;
-}
+@interface Application : NSObject
 
 @property(copy)		NSString		*identifier;
 @property(copy)		NSString		*name;

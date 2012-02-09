@@ -21,6 +21,11 @@
 #import "Window.h"
 
 @implementation Area
+{
+	NSMutableArray  *children;
+	NSRect          rect;
+    BOOL            verticallySplit;
+}
 
 @synthesize children;
 @synthesize rect;

@@ -19,10 +19,7 @@
 
 @class Area;
 
-@interface AreaController : NSObject {
-	NSScreen	*screen;
-	Area		*toplevelArea;
-}
+@interface AreaController : NSObject
 
 @property(readonly) NSScreen	*screen;
 @property(readonly) Area		*toplevelArea;

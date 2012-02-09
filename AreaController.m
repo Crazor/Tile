@@ -21,6 +21,10 @@
 #import "Area.h"
 
 @implementation AreaController
+{
+	NSScreen	*screen;
+	Area		*toplevelArea;
+}
 
 @synthesize screen;
 @synthesize toplevelArea;

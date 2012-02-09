@@ -43,6 +43,13 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 }
 
 @implementation EventController
+{
+	EventHotKeyRef				hotKeyRef;
+	EventHotKeyRef				keyRef[0x80];
+	BOOL						keyHandlersRegistered;
+	SEL							eventSelectors[EVENT_ID_MAX];
+	id							eventTargets[EVENT_ID_MAX];
+}
 
 - (void)awakeFromNib
 {

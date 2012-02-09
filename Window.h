@@ -22,16 +22,7 @@
 @class GTMAXUIElement;
 @class Application;
 
-@interface Window : NSObject {
-	AXObserverRef	observer;
-	GTMAXUIElement	*element;
-	Application		*application;
-	BOOL			locked;
-	NSRect			lockedRect;
-	NSRect			restoredRect;
-	BOOL			maximized;
-    Area            *area;
-}
+@interface Window : NSObject
 
 @property(readonly)	GTMAXUIElement	*element;
 @property(readonly)	Application		*application;

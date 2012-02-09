@@ -19,11 +19,7 @@
 
 @class Window;
 
-@interface Area : NSObject {
-	NSMutableArray  *children;
-	NSRect          rect;
-    BOOL            verticallySplit;
-}
+@interface Area : NSObject
 
 @property(readonly)     NSMutableArray  *children;
 @property(readonly)     NSRect          rect;

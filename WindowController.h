@@ -21,9 +21,7 @@
 @class Application;
 @class Window;
 
-@interface WindowController : NSObject {
-	NSMutableArray *applications;
-}
+@interface WindowController : NSObject
 
 @property(readonly)		NSMutableArray	*applications;
 

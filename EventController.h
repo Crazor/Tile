@@ -23,13 +23,7 @@
 
 @class WindowController;
 
-@interface EventController : NSObject {
-	EventHotKeyRef				hotKeyRef;
-	EventHotKeyRef				keyRef[0x80];
-	BOOL						keyHandlersRegistered;
-	SEL							eventSelectors[EVENT_ID_MAX];
-	id							eventTargets[EVENT_ID_MAX];
-}
+@interface EventController : NSObject
 
 - (void)registerLeaderHandler;
 - (void)registerKeyHandlers;
