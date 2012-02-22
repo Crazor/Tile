@@ -28,7 +28,7 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 	EventHotKeyID hotKeyID;
 	GetEventParameter(event, kEventParamDirectObject, typeEventHotKeyID, NULL, sizeof(hotKeyID), NULL, &hotKeyID);
 	
-	EventController *self = (EventController *)userData;
+	EventController *self = (__bridge EventController *)userData;
 	
 	if (hotKeyID.signature == 'lead')
 	{
@@ -84,7 +84,7 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 	typeSpec.eventClass	= kEventClassKeyboard;
 	typeSpec.eventKind	= kEventHotKeyPressed;
 	
-	InstallApplicationEventHandler(&applicationEventHandler, 1, &typeSpec, self, NULL);
+	InstallApplicationEventHandler(&applicationEventHandler, 1, &typeSpec, (__bridge void *)self, NULL);
 
 	OSStatus status = RegisterEventHotKey(kVK_Space, controlKey, hotKeyID, GetApplicationEventTarget(), 0, &hotKeyRef);
 	if (status != noErr)
@@ -107,7 +107,7 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 	typeSpec.eventClass	= kEventClassKeyboard;
 	typeSpec.eventKind	= kEventHotKeyPressed;
 
-	InstallApplicationEventHandler(&applicationEventHandler, 1, &typeSpec, self, NULL);
+	InstallApplicationEventHandler(&applicationEventHandler, 1, &typeSpec, (__bridge void *)self, NULL);
 	
 	for (int i = 0; i < EVENT_ID_MAX; i++)
 	{

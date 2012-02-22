@@ -22,7 +22,7 @@
 
 @implementation AreaController
 {
-	NSScreen	*screen;
+	NSScreen	*__weak screen;
 	Area		*toplevelArea;
 }
 
@@ -52,7 +52,6 @@ static AreaController *sharedInstance;
 {
 	if (sharedInstance)
 	{
-		[self dealloc];
 		return sharedInstance;
 	}
 

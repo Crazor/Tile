@@ -41,17 +41,17 @@
 
 + (id)systemWideElement {
 	AXUIElementRef elementRef = AXUIElementCreateSystemWide();
-	GTMAXUIElement *element = [[[[self class] alloc] initWithElement:elementRef] autorelease];
+	GTMAXUIElement *element = [[[self class] alloc] initWithElement:elementRef];
 	CFRelease(elementRef);
 	return element;
 }
 
 + (id)elementWithElement:(AXUIElementRef)element {
-	return [[[[self class] alloc] initWithElement:element] autorelease];
+	return [[[self class] alloc] initWithElement:element];
 }
 
 + (id)elementWithProcessIdentifier:(pid_t)pid {
-	return [[[[self class] alloc] initWithProcessIdentifier:pid] autorelease];
+	return [[[self class] alloc] initWithProcessIdentifier:pid];
 }
 
 - (id)init {
@@ -61,7 +61,6 @@
 - (id)initWithElement:(AXUIElementRef)element {
 	if ((self = [super init])) {
 		if (!element) {
-			[self release];
 			return nil;
 		}
 		element_ = CFRetain(element);
@@ -75,7 +74,6 @@
 			element_ = AXUIElementCreateApplication(pid);
 		}
 		if (!element_) {
-			[self release];
 			return nil;
 		}
 	}
@@ -86,7 +84,6 @@
 	if (element_) {
 		CFRelease(element_);
 	}
-	[super dealloc];
 }
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -146,7 +143,7 @@
 - (int)accessibilityAttributeValueCount:(NSString*)attribute {
 	CFIndex count;
 	AXError error = AXUIElementGetAttributeValueCount(element_,
-													  (CFStringRef)attribute,
+													  (__bridge CFStringRef)attribute,
 													  &count);
 	if (error) {
 		count = -1;
@@ -157,7 +154,7 @@
 - (CFTypeRef)accessibilityCopyAttributeCFValue:(NSString*)attribute {
 	CFTypeRef value = NULL;
 	AXError error = AXUIElementCopyAttributeValue(element_,
-												  (CFStringRef)attribute,
+												  (__bridge CFStringRef)attribute,
 												  &value);
 	if (error == kAXErrorNoValue) {
 		value = kCFNull;
@@ -176,26 +173,26 @@
 		nsValue = [GTMAXUIElement elementWithElement:(AXUIElementRef)value];
 	} else if (CFGetTypeID(value) == CFArrayGetTypeID()) {
 		nsValue = [NSMutableArray array];
-		NSEnumerator *enumerator = [(NSArray*)value objectEnumerator];
+		NSEnumerator *enumerator = [(__bridge NSArray*)value objectEnumerator];
 		id object;
 		while ((object = [enumerator nextObject])) {
-			if (CFGetTypeID((CFTypeRef)object) == axTypeID) {
+			if (CFGetTypeID((__bridge CFTypeRef)object) == axTypeID) {
 				[nsValue addObject:[GTMAXUIElement elementWithElement:(AXUIElementRef)object]];
 			} else {
 				[nsValue addObject:object];
 			}
 		}
 	} else {
-		nsValue = [[(id)CFMakeCollectable(value) retain] autorelease];
+		nsValue = (__bridge id)value;
 	}
-	CFRelease(value);
+	//CFRelease(value);
 	return nsValue;
 }
 
 - (BOOL)accessibilityIsAttributeSettable:(NSString*)attribute {
 	Boolean settable;
 	AXError error = AXUIElementIsAttributeSettable(element_,
-												   (CFStringRef)attribute,
+												   (__bridge CFStringRef)attribute,
 												   &settable);
 	if (error) {
 		settable = FALSE;
@@ -206,7 +203,7 @@
 
 - (BOOL)setAccessibilityValue:(CFTypeRef)value forAttribute:(NSString*)attribute {
 	AXError axerror = AXUIElementSetAttributeValue(element_,
-												   (CFStringRef)attribute,
+												   (__bridge CFStringRef)attribute,
 												   value);
 	return axerror == kAXErrorSuccess;
 }
@@ -216,7 +213,7 @@
 	NSArray *nsArray = nil;
 	AXError axerror = AXUIElementCopyAttributeNames(element_, &array);
 	if (!axerror) {
-		nsArray = [(NSArray*)CFMakeCollectable(array) autorelease];
+		nsArray = (__bridge NSArray*)array;
 	}
 	return nsArray;
 }
@@ -240,7 +237,7 @@
 }
 
 - (BOOL)performAccessibilityAction:(NSString*)action {
-	return AXUIElementPerformAction(element_, (CFStringRef)action) == kAXErrorSuccess;
+	return AXUIElementPerformAction(element_, (__bridge CFStringRef)action) == kAXErrorSuccess;
 }
 
 - (NSArray *)accessibilityActionNames {
@@ -248,7 +245,7 @@
 	NSArray *nsArray = nil;
 	AXError error = AXUIElementCopyActionNames(element_, &array);
 	if (!error) {
-		nsArray = [(NSArray*)CFMakeCollectable(array) autorelease];
+		nsArray = (__bridge NSArray*)array;
 	}
 	return nsArray;
 }
@@ -257,10 +254,10 @@
 	CFStringRef description;
 	NSString *nsDescription;
 	AXError error = AXUIElementCopyActionDescription(element_,
-													 (CFStringRef)action,
+													 (__bridge CFStringRef)action,
 													 &description);
 	if (!error) {
-		nsDescription = [(NSString*)CFMakeCollectable(description) autorelease];
+		nsDescription = (__bridge NSString*)description;
 	}
 	return nsDescription;
 }
@@ -271,7 +268,7 @@
 	AXError error = AXUIElementCopyParameterizedAttributeNames(element_,
 															   &names);
 	if (!error) {
-		nsNames = [(NSArray*)CFMakeCollectable(names) autorelease];
+		nsNames = (__bridge NSArray*)names;
 	}
 	return nsNames;
 }
@@ -281,13 +278,13 @@
 	CFTypeRef value;
 	id nsValue;
 	AXError error = AXUIElementCopyParameterizedAttributeValue(element_,
-															   (CFStringRef)attribute,
-															   (CFTypeRef)parameter,
+															   (__bridge CFStringRef)attribute,
+															   (__bridge CFTypeRef)parameter,
 															   &value);
 	if (error == kAXErrorNoValue) {
 		nsValue = [NSNull null];
 	} else if (!error) {
-		nsValue = [(id)CFMakeCollectable(value) autorelease];
+		nsValue = (__bridge id)value;
 	}
 	return nsValue;
 }
@@ -295,9 +292,9 @@
 - (NSString*)stringValueForAttribute:(NSString*)attribute {
 	CFTypeRef cfValue = [self accessibilityCopyAttributeCFValue:attribute];
 	NSString *stringValue = [self stringValueForCFType:cfValue];
-	if (cfValue) {
-		CFRelease(cfValue);
-	}
+	//if (cfValue) {
+	//	CFRelease(cfValue);
+	//}
 	return stringValue;
 }
 
@@ -305,11 +302,11 @@
 	CFTypeRef cfPreviousValue = [self accessibilityCopyAttributeCFValue:attribute];
 	if (!cfPreviousValue || cfPreviousValue == kCFNull) return NO;
 	CFTypeRef cfValue = [self createCFTypeOfSameTypeAs:cfPreviousValue withString:string];
-	CFRelease(cfPreviousValue);
+	//CFRelease(cfPreviousValue);
 	BOOL isGood = [self setAccessibilityValue:cfValue forAttribute:attribute];
-	if (cfValue) {
-		CFRelease(cfValue);
-	}
+	//if (cfValue) {
+	//	CFRelease(cfValue);
+	//}
 	return isGood;
 }
 
@@ -425,7 +422,7 @@
 
 
 - (NSString*)stringValueForCFArray:(CFArrayRef)cfArray {
-	NSArray *array = (NSArray*)cfArray;
+	NSArray *array = (__bridge NSArray*)cfArray;
 	NSEnumerator *arrayEnumerator = [array objectEnumerator];
 	id value;
 	NSMutableString *string = [NSMutableString stringWithString:@"{ "];
@@ -445,11 +442,11 @@
 	if (!cfValue) return nil;
 	CFTypeID cfType = CFGetTypeID(cfValue);
 	if (cfType == CFStringGetTypeID()) {
-		stringValue = [[(id)CFMakeCollectable(cfValue) retain] autorelease];
+		stringValue = (__bridge id)cfValue;
 	} else if (cfType == CFURLGetTypeID()) {
-		stringValue = [(NSURL*)cfValue absoluteString];
+		stringValue = [(__bridge NSURL*)cfValue absoluteString];
 	} else if (cfType == CFNumberGetTypeID()) {
-		stringValue = [(NSNumber*)cfValue stringValue];
+		stringValue = [(__bridge NSNumber*)cfValue stringValue];
 	} else if (cfType == CFNullGetTypeID()) {
 		stringValue = [NSString string];
 	} else if (cfType == AXUIElementGetTypeID()) {
@@ -462,7 +459,8 @@
 		stringValue = CFBooleanGetValue(cfValue) ? @"YES" : @"NO";
 	} else {
 		CFStringRef description = CFCopyDescription(cfValue);
-		stringValue = [(id)CFMakeCollectable(description) autorelease];
+		stringValue = (__bridge id)description;
+		CFRelease(description);
 	}
 	return stringValue;
 }
@@ -473,9 +471,9 @@
 	CFTypeRef value = NULL;
 	CFTypeID valueType = CFGetTypeID(previousValue);
 	if (valueType == CFStringGetTypeID()) {
-		value = CFStringCreateCopy(NULL, (CFStringRef)string);
+		value = CFStringCreateCopy(NULL, (__bridge CFStringRef)string);
 	} else if (valueType == CFURLGetTypeID()) {
-		value = CFURLCreateWithString(NULL, (CFStringRef)string, NULL);
+		value = CFURLCreateWithString(NULL, (__bridge CFStringRef)string, NULL);
 	} else if (valueType == CFNumberGetTypeID()) {
 		double dValue = [string doubleValue];
 		value = CFNumberCreate(NULL, kCFNumberDoubleType, &dValue);

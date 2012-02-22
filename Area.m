@@ -50,8 +50,7 @@ static NSWindow *overlay;
 
 - (void)dealloc
 {
-	[[self children] release];
-	[super dealloc];
+	[self children];
 }
 
 - (int)width

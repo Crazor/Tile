@@ -23,20 +23,19 @@
 
 int main(int argc, char *argv[])
 {
-	NSAutoreleasePool *autoreleasePool = [[NSAutoreleasePool alloc] init];
-	[NSApplication sharedApplication];
-	
-	AreaController *areaController = [[AreaController alloc] init];
-	[areaController awakeFromNib];
-	
-	WindowController *windowController = [[WindowController alloc] init];
-	[windowController awakeFromNib];
-	
-	EventController *eventController = [[EventController alloc] init];
-	[eventController awakeFromNib];
-	
-	[NSApp run];
-	
-	[autoreleasePool release];
+	@autoreleasepool {
+		[NSApplication sharedApplication];
+		
+		AreaController *areaController = [[AreaController alloc] init];
+		[areaController awakeFromNib];
+		
+		WindowController *windowController = [[WindowController alloc] init];
+		[windowController awakeFromNib];
+		
+		EventController *eventController = [[EventController alloc] init];
+		[eventController awakeFromNib];
+		
+		[NSApp run];
+	}
 	return 0;
 }

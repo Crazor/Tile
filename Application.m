@@ -26,8 +26,8 @@
 static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef, CFStringRef notification, void *refcon)
 {
 	GTMAXUIElement *element = [GTMAXUIElement elementWithElement:elementRef];
-	Application *application = (Application *)refcon;
-	NSString *notificationString = (NSString *)notification;
+	Application *application = (__bridge Application *)refcon;
+	NSString *notificationString = (__bridge NSString *)notification;
 	
 	if ([notificationString isEqualToString:(NSString *)kAXWindowCreatedNotification])
 	{
@@ -45,8 +45,8 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	NSString		*identifier;
 	NSString		*name;
 	pid_t			pid;
-	GTMAXUIElement	*element;
-	NSMutableArray	*windows;
+	GTMAXUIElement	*__weak element;
+	NSMutableArray	*__weak windows;
 }
 
 @synthesize identifier;
@@ -80,12 +80,6 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 - (void)dealloc
 {
 	[self unregisterAXObserver];
-	[[self identifier]	release];
-	[[self name]		release];
-	[[self element]		release];
-	[[self windows]		release];
-	
-	[super dealloc];
 }
 
 - (void)registerAXObserver
@@ -95,12 +89,12 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 		NSLog(@"Error creating AXObserver for %@", [self identifier]);
 		return;
 	}
-	if (AXObserverAddNotification(observer, [[self element] element], kAXWindowCreatedNotification, self))
+	if (AXObserverAddNotification(observer, [[self element] element], kAXWindowCreatedNotification, (__bridge void *)self))
 	{
 		NSLog(@"Error adding AXWindowCreatedNotification for %@", [self identifier]);
 		return;
 	}
-	if (AXObserverAddNotification(observer, [[self element] element], kAXUIElementDestroyedNotification, self))
+	if (AXObserverAddNotification(observer, [[self element] element], kAXUIElementDestroyedNotification, (__bridge void *)self))
 	{
 		NSLog(@"Error adding AXUIElementDestroyedNotification for %@", [self identifier]);
 		return;

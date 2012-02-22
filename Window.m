@@ -52,27 +52,27 @@
 // C Callback for AX Notifications
 static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef, CFStringRef notification, void *refcon)
 {
-	Window *self = (Window *)refcon;
+	Window *self = (__bridge Window *)refcon;
 	
 	if ([[self element] isEqual:[GTMAXUIElement elementWithElement:elementRef]])
 	{
-		if ([(NSString *)notification isEqualToString:@"AXWindowMoved"])
+		if ([(__bridge NSString *)notification isEqualToString:@"AXWindowMoved"])
 		{
 			[self moved];
 		}
-		if ([(NSString *)notification isEqualToString:@"AXWindowResized"])
+		if ([(__bridge NSString *)notification isEqualToString:@"AXWindowResized"])
 		{
 			[self resized];
 		}
-		if ([(NSString *)notification isEqualToString:@"AXWindowMiniaturized"])
+		if ([(__bridge NSString *)notification isEqualToString:@"AXWindowMiniaturized"])
 		{
 			[self miniaturized];
 		}
-		if ([(NSString *)notification isEqualToString:@"AXWindowDeminiaturized"])
+		if ([(__bridge NSString *)notification isEqualToString:@"AXWindowDeminiaturized"])
 		{
 			[self deminiaturized];
 		}
-        if ([(NSString *)notification isEqualToString:@"AXUIElementDestroyed"])
+        if ([(__bridge NSString *)notification isEqualToString:@"AXUIElementDestroyed"])
 		{
 			[self destroyed];
 		}
@@ -82,13 +82,13 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 @implementation Window
 {
 	AXObserverRef	observer;
-	GTMAXUIElement	*element;
-	Application		*application;
+	GTMAXUIElement	*__weak element;
+	Application		*__weak application;
 	BOOL			locked;
 	NSRect			lockedRect;
 	NSRect			restoredRect;
 	BOOL			maximized;
-    Area            *area;
+    Area            *__weak area;
 }
 
 @synthesize	element;
@@ -103,8 +103,8 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 {
 	if ((self = [super init]))
 	{
-		element = [e retain];
-		application = [a retain];
+		element = e;
+		application = a;
 		[self registerAXObserver];
 	}
 	return self;
@@ -113,9 +113,6 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 - (void)dealloc
 {
 	[self unregisterAXObserver];
-	[[self application] release];
-	[[self element] release];
-	[super dealloc];
 }
 
 - (NSString *)description
@@ -138,27 +135,27 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 	CFRunLoopAddSource([[NSRunLoop currentRunLoop] getCFRunLoop], AXObserverGetRunLoopSource(observer), kCFRunLoopDefaultMode);
 
-	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowMovedNotification, self))
+	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowMovedNotification, (__bridge void *)self))
 	{
 		NSLog(@"Error adding kAXWindowMovedNotification for %@", self);
 		return;
 	}
-	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowResizedNotification, self))
+	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowResizedNotification, (__bridge void *)self))
 	{
 		NSLog(@"Error adding kAXWindowResizedNotification for %@", self);
 		return;
 	}
-	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowMiniaturizedNotification, self))
+	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowMiniaturizedNotification, (__bridge void *)self))
 	{
 		NSLog(@"Error adding kAXWindowMiniaturizedNotification for %@", self);
 		return;
 	}
-	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowDeminiaturizedNotification, self))
+	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowDeminiaturizedNotification, (__bridge void *)self))
 	{
 		NSLog(@"Error adding kAXWindowDeminiaturizedNotification for %@", self);
 		return;
 	}
-	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXUIElementDestroyedNotification, self))
+	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXUIElementDestroyedNotification, (__bridge void *)self))
 	{
 		NSLog(@"Error adding kAXUIElementDestroyedNotification for %@", self);
 		return;

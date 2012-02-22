@@ -24,7 +24,7 @@
 
 @implementation WindowController
 {
-	NSMutableArray *applications;
+	NSMutableArray *__weak applications;
 }
 
 @synthesize applications;
@@ -50,13 +50,12 @@ static WindowController *sharedInstance;
 {
 	if (sharedInstance)
 	{
-		[self dealloc];
 		return sharedInstance;
 	}
 	
 	if (self = [super init])
 	{
-		applications = [[NSMutableArray array] retain];
+		applications = [NSMutableArray array];
 	}
 	
 	return self;
@@ -91,9 +90,8 @@ static WindowController *sharedInstance;
 
 - (void)dealloc
 {
-	[[self applications] release];
+	[self applications];
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
-	[super dealloc];
 }
 
 - (void)populateAppList
