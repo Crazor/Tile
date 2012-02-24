@@ -165,7 +165,10 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 	else if ([target respondsToSelector:selector])
 	{
 		NSLog(@"Performing selector %@ on target %@ (event ID: %d)", NSStringFromSelector(selector), NSStringFromClass([target class]), ID);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 		[target performSelector:selector];
+#pragma clang diagnostic pop
 	}
 	else
 	{
