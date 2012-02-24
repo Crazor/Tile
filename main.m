@@ -24,6 +24,7 @@
 int main(int argc, char *argv[])
 {
 	@autoreleasepool {
+		// Lazy initialization
 		[NSApplication sharedApplication];
 		
 		AreaController *areaController = [[AreaController alloc] init];
