@@ -74,7 +74,7 @@ static AreaController *sharedInstance;
 		NSString *mainScreen;
 		if (i == 0)
 		{
-			mainScreen = [NSString stringWithString:@"[Main screen]"];
+			mainScreen = @"[Main screen]";
 			screen = aScreen;
 		}
 		else
