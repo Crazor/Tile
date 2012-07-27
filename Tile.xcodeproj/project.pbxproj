@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E1CA52D14E02089002EAA84 /* VerticalStrategy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1CA52C14E02089002EAA84 /* VerticalStrategy.m */; };
 		6E2A63540E40B6B600501C12 /* AreaController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A63530E40B6B600501C12 /* AreaController.m */; };
 		6E2A63570E40B6B900501C12 /* Area.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A63560E40B6B900501C12 /* Area.m */; };
 		6E4CAC780E30F0CD0084073D /* WindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4CAC770E30F0CD0084073D /* WindowController.m */; };
@@ -15,6 +16,7 @@
 		6E4CADEE0E325DA70084073D /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4CADED0E325DA70084073D /* Application.m */; };
 		6E4CB0040E34FEDB0084073D /* EventController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4CB0030E34FEDB0084073D /* EventController.m */; };
 		6E4CB01C0E35027E0084073D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E4CB01B0E35027E0084073D /* Carbon.framework */; };
+		6E8672D814E3EC8300829E45 /* TilingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8672D714E3EC8300829E45 /* TilingController.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -28,6 +30,9 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Tile_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile_Prefix.pch; sourceTree = "<group>"; };
+		6E1CA52A14E02030002EAA84 /* TilingStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TilingStrategy.h; sourceTree = "<group>"; };
+		6E1CA52B14E02089002EAA84 /* VerticalStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerticalStrategy.h; sourceTree = "<group>"; };
+		6E1CA52C14E02089002EAA84 /* VerticalStrategy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerticalStrategy.m; sourceTree = "<group>"; };
 		6E2A63520E40B6B600501C12 /* AreaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AreaController.h; sourceTree = "<group>"; };
 		6E2A63530E40B6B600501C12 /* AreaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AreaController.m; sourceTree = "<group>"; };
 		6E2A63550E40B6B900501C12 /* Area.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Area.h; sourceTree = "<group>"; };
@@ -43,6 +48,8 @@
 		6E4CB0020E34FEDB0084073D /* EventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventController.h; sourceTree = "<group>"; };
 		6E4CB0030E34FEDB0084073D /* EventController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventController.m; sourceTree = "<group>"; };
 		6E4CB01B0E35027E0084073D /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		6E8672D614E3EC8300829E45 /* TilingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TilingController.h; sourceTree = "<group>"; };
+		6E8672D714E3EC8300829E45 /* TilingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TilingController.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Tile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -69,6 +76,11 @@
 				6E2A63560E40B6B900501C12 /* Area.m */,
 				6E2A63520E40B6B600501C12 /* AreaController.h */,
 				6E2A63530E40B6B600501C12 /* AreaController.m */,
+				6E1CA52A14E02030002EAA84 /* TilingStrategy.h */,
+				6E8672D614E3EC8300829E45 /* TilingController.h */,
+				6E8672D714E3EC8300829E45 /* TilingController.m */,
+				6E1CA52B14E02089002EAA84 /* VerticalStrategy.h */,
+				6E1CA52C14E02089002EAA84 /* VerticalStrategy.m */,
 				6E4CB0020E34FEDB0084073D /* EventController.h */,
 				6E4CB0030E34FEDB0084073D /* EventController.m */,
 				6E4CADEC0E325DA70084073D /* Application.h */,
@@ -174,7 +186,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "Tile" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -216,6 +228,8 @@
 				6E4CB0040E34FEDB0084073D /* EventController.m in Sources */,
 				6E2A63540E40B6B600501C12 /* AreaController.m in Sources */,
 				6E2A63570E40B6B900501C12 /* Area.m in Sources */,
+				6E1CA52D14E02089002EAA84 /* VerticalStrategy.m in Sources */,
+				6E8672D814E3EC8300829E45 /* TilingController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,12 +252,13 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Tile_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Tile;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -252,12 +267,13 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Tile_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = Tile;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
