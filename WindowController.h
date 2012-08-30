@@ -27,6 +27,7 @@
 
 + (WindowController *)sharedInstance;
 
+- (NSArray *)windows;
 - (void)populateAppList;
 - (void)registerWithNotificationCenter;
 

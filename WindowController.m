@@ -94,6 +94,16 @@ static WindowController *sharedInstance;
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 }
 
+- (NSArray *)windows
+{
+	NSMutableArray *array = [NSMutableArray array];
+	for (Application *a in applications)
+	{
+		[array addObjectsFromArray:[a windows]];
+	}
+	return array;
+}
+
 - (void)populateAppList
 {
 	// Populate appList with running apps
