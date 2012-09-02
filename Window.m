@@ -52,27 +52,27 @@
 // C Callback for AX Notifications
 static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef, CFStringRef notification, void *refcon)
 {
-	Window *self = (__bridge Window *)refcon;
+	Window *self = (__bridge_transfer Window *)refcon;
 	
 	if ([[self element] isEqual:[GTMAXUIElement elementWithElement:elementRef]])
 	{
-		if ([(__bridge NSString *)notification isEqualToString:@"AXWindowMoved"])
+		if ([(__bridge_transfer NSString *)notification isEqualToString:@"AXWindowMoved"])
 		{
 			[self moved];
 		}
-		if ([(__bridge NSString *)notification isEqualToString:@"AXWindowResized"])
+		if ([(__bridge_transfer NSString *)notification isEqualToString:@"AXWindowResized"])
 		{
 			[self resized];
 		}
-		if ([(__bridge NSString *)notification isEqualToString:@"AXWindowMiniaturized"])
+		if ([(__bridge_transfer NSString *)notification isEqualToString:@"AXWindowMiniaturized"])
 		{
 			[self miniaturized];
 		}
-		if ([(__bridge NSString *)notification isEqualToString:@"AXWindowDeminiaturized"])
+		if ([(__bridge_transfer NSString *)notification isEqualToString:@"AXWindowDeminiaturized"])
 		{
 			[self deminiaturized];
 		}
-        if ([(__bridge NSString *)notification isEqualToString:@"AXUIElementDestroyed"])
+        if ([(__bridge_transfer NSString *)notification isEqualToString:@"AXUIElementDestroyed"])
 		{
 			[self destroyed];
 		}
@@ -135,27 +135,27 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 	CFRunLoopAddSource([[NSRunLoop currentRunLoop] getCFRunLoop], AXObserverGetRunLoopSource(observer), kCFRunLoopDefaultMode);
 
-	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowMovedNotification, (__bridge void *)self))
+	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowMovedNotification, (__bridge_retained void *)self))
 	{
 		NSLog(@"Error adding kAXWindowMovedNotification for %@", self);
 		return;
 	}
-	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowResizedNotification, (__bridge void *)self))
+	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowResizedNotification, (__bridge_retained void *)self))
 	{
 		NSLog(@"Error adding kAXWindowResizedNotification for %@", self);
 		return;
 	}
-	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowMiniaturizedNotification, (__bridge void *)self))
+	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowMiniaturizedNotification, (__bridge_retained void *)self))
 	{
 		NSLog(@"Error adding kAXWindowMiniaturizedNotification for %@", self);
 		return;
 	}
-	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowDeminiaturizedNotification, (__bridge void *)self))
+	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowDeminiaturizedNotification, (__bridge_retained void *)self))
 	{
 		NSLog(@"Error adding kAXWindowDeminiaturizedNotification for %@", self);
 		return;
 	}
-	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXUIElementDestroyedNotification, (__bridge void *)self))
+	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXUIElementDestroyedNotification, (__bridge_retained void *)self))
 	{
 		NSLog(@"Error adding kAXUIElementDestroyedNotification for %@", self);
 		return;

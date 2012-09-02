@@ -472,11 +472,14 @@
 	CFTypeID valueType = CFGetTypeID(previousValue);
 	if (valueType == CFStringGetTypeID()) {
 		value = CFStringCreateCopy(NULL, (__bridge CFStringRef)string);
+        CFRelease(value);
 	} else if (valueType == CFURLGetTypeID()) {
 		value = CFURLCreateWithString(NULL, (__bridge CFStringRef)string, NULL);
+        CFRelease(value);
 	} else if (valueType == CFNumberGetTypeID()) {
 		double dValue = [string doubleValue];
 		value = CFNumberCreate(NULL, kCFNumberDoubleType, &dValue);
+        CFRelease(value);
 	} else if (valueType == CFNullGetTypeID()) {
 		value = kCFNull;
 	} else if (valueType == AXValueGetTypeID()) {

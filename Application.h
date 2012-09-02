@@ -25,8 +25,8 @@
 @property(copy)		NSString		*identifier;
 @property(copy)		NSString		*name;
 @property(assign)	pid_t			pid;
-@property	(weak) GTMAXUIElement	*element;
-@property	(weak) NSMutableArray	*windows;
+@property(retain)	 GTMAXUIElement	*element;
+@property(retain)	 NSMutableArray	*windows;
 
 - (id)initWithRunningApplication:(NSRunningApplication *)runningApplication;
 - (NSArray *)attributes;
