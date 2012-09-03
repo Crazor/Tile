@@ -108,7 +108,11 @@ static WindowController *sharedInstance;
 	NSRunningApplication *runningApplication;
 	for (runningApplication in [ws runningApplications])
 	{
-		[[self applications] addObject:[[Application alloc] initWithRunningApplication:runningApplication]];
+        if ([runningApplication activationPolicy] == NSApplicationActivationPolicyRegular // Skip agents etc.
+            && [runningApplication processIdentifier] != [[NSProcessInfo processInfo] processIdentifier]) // Skip self
+        {
+            [[self applications] addObject:[[Application alloc] initWithRunningApplication:runningApplication]];
+        }
 	}
 }
 
@@ -134,8 +138,12 @@ static WindowController *sharedInstance;
 
 - (void)appLaunched:(NSNotification *)notification
 {
-	[[self applications] addObject:[[Application alloc] initWithRunningApplication:[[notification userInfo] objectForKey:@"NSWorkspaceApplicationKey"]]];
-	NSLog(@"appLaunched %@", [[notification userInfo] objectForKey:@"NSWorkspaceApplicationKey"]);
+    NSRunningApplication *application = [[notification userInfo] objectForKey:@"NSWorkspaceApplicationKey"];
+    if ([application processIdentifier] != [[NSProcessInfo processInfo] processIdentifier])
+    {
+        [[self applications] addObject:[[Application alloc] initWithRunningApplication:application]];
+         NSLog(@"appLaunched %@", [[notification userInfo] objectForKey:@"NSWorkspaceApplicationKey"]);
+    }
 }
 
 - (void)appTerminated:(NSNotification *)notification
