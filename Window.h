@@ -24,13 +24,13 @@
 
 @interface Window : NSObject
 
-@property(weak, readonly)	GTMAXUIElement	*element;
-@property(weak, readonly)	Application		*application;
-@property(readonly)	BOOL			locked;
-@property(readonly) NSRect			lockedRect;
-@property(readonly) NSRect			restoredRect;
-@property(readonly) BOOL			maximized;
-@property   (weak) Area *area;
+@property(weak, readonly)   GTMAXUIElement  *element;
+@property(weak, readonly)   Application     *application;
+@property(readonly)         BOOL            locked;
+@property(readonly)         NSRect          lockedRect;
+@property(readonly)         NSRect          restoredRect;
+@property(readonly)         BOOL            maximized;
+@property(weak)             Area            *area;
 
 - (id)initWithElement:(GTMAXUIElement *)e andApplication:(Application *)a;
 - (NSArray *)attributes;

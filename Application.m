@@ -42,11 +42,6 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 @implementation Application
 {
 	AXObserverRef	observer;
-	NSString		*identifier;
-	NSString		*name;
-	pid_t			pid;
-	GTMAXUIElement	*element;
-	NSMutableArray	*windows;
 }
 
 @synthesize identifier;

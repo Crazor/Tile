@@ -81,14 +81,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 @implementation Window
 {
-	AXObserverRef	observer;
-	GTMAXUIElement	*__weak element;
-	Application		*__weak application;
-	BOOL			locked;
-	NSRect			lockedRect;
-	NSRect			restoredRect;
-	BOOL			maximized;
-    Area            *__weak area;
+	AXObserverRef   observer;
 }
 
 @synthesize	element;

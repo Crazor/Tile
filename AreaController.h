@@ -21,8 +21,8 @@
 
 @interface AreaController : NSObject
 
-@property(weak, readonly) NSScreen	*screen;
-@property(readonly) Area		*toplevelArea;
+@property(weak, readonly)   NSScreen	*screen;
+@property(readonly)         Area		*toplevelArea;
 
 + (AreaController *)sharedInstance;
 

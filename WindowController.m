@@ -23,9 +23,6 @@
 #import "Window.h"
 
 @implementation WindowController
-{
-	NSMutableArray *__weak applications;
-}
 
 @synthesize applications;
 

@@ -19,12 +19,10 @@
 
 #import "AreaController.h"
 #import "Area.h"
+#import "TilingController.h"
+#import "VerticalStrategy.h"
 
 @implementation AreaController
-{
-	NSScreen	*__weak screen;
-	Area		*toplevelArea;
-}
 
 @synthesize screen;
 @synthesize toplevelArea;

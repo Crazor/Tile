@@ -23,7 +23,7 @@
 
 @interface WindowController : NSObject
 
-@property(weak, readonly)		NSMutableArray	*applications;
+@property(weak, readonly)   NSMutableArray  *applications;
 
 + (WindowController *)sharedInstance;
 
