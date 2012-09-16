@@ -115,7 +115,8 @@ static NSScreen         *screen;
 		if (i == 0)
 		{
 			NSRect rect = [aScreen visibleFrame];
-			_toplevelArea = [[Area alloc] initWithRect:rect];
+            rect.origin.y = 22;
+            _toplevelArea = [[Area alloc] initWithRect:rect];
             _screenResolution = [[aScreen deviceDescription][NSDeviceSize] sizeValue];
 		}
 		else

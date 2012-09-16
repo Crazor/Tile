@@ -24,6 +24,8 @@
 
 @property Area* area;
 
++ (id<TilingStrategy>)sharedInstance;
+
 - (void)addWindow:(Window *)window;
 - (void)addWindows:(NSArray *)windows;
 - (void)tileWindows;

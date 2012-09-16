@@ -17,10 +17,9 @@
  * along with Tile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #import <Foundation/Foundation.h>
 #import "TilingStrategy.h"
 
-@interface VerticalStrategy : NSObject<TilingStrategy> 
+@interface HorizontalStrategy : NSObject<TilingStrategy>
 
 @end
