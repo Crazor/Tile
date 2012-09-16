@@ -17,7 +17,7 @@
  * along with Tile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "AreaController.h"
+#import "TilingController.h"
 #import "WindowController.h"
 #import "EventController.h"
 
@@ -26,15 +26,12 @@ int main(int argc, char *argv[])
 	@autoreleasepool {
 		// Lazy initialization
 		[NSApplication sharedApplication];
-		
-		AreaController *areaController = [[AreaController alloc] init];
-		[areaController awakeFromNib];
-		
-		WindowController *windowController = [[WindowController alloc] init];
-		[windowController awakeFromNib];
-		
-		EventController *eventController = [[EventController alloc] init];
-		[eventController awakeFromNib];
+        
+        [WindowController sharedInstance];
+		[EventController sharedInstance];
+        
+        TilingController *tc = [TilingController sharedInstance];
+        [tc setTilingStrategy:[tc strategies][0]];
 		
 		[NSApp run];
 	}

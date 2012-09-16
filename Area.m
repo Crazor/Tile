@@ -22,10 +22,6 @@
 
 @implementation Area
 
-@synthesize children;
-@synthesize rect;
-@synthesize verticallySplit;
-
 static NSWindow *overlay;
 
 
@@ -36,9 +32,8 @@ static NSWindow *overlay;
 {
 	if ((self = [super init]))
 	{
-		children = [[NSMutableArray alloc] init];
-		rect = r;
-		NSLog(@"Creating Area with origin: %@, size: %@", NSStringFromPoint(r.origin), NSStringFromSize(r.size));
+		_children = [[NSMutableArray alloc] init];
+		_rect = r;
 	}
 	return self;
 }
@@ -60,7 +55,7 @@ static NSWindow *overlay;
 
 - (void)drawOverlay
 {
-	NSRect contentRect = [NSWindow contentRectForFrameRect:rect styleMask:NSBorderlessWindowMask];
+	NSRect contentRect = [NSWindow contentRectForFrameRect:_rect styleMask:NSBorderlessWindowMask];
 	overlay = [[NSWindow alloc] initWithContentRect:contentRect
                                           styleMask:NSBorderlessWindowMask
                                             backing:NSBackingStoreBuffered
@@ -76,34 +71,34 @@ static NSWindow *overlay;
 
 - (void)addChild:(Window *)w
 {
-	[children addObject:w];
+	[_children addObject:w];
     [w setArea:self];
 	[self resizeChildren];
 }
 
 - (void)removeChild:(Window *)w
 {
-    [children removeObject:w];
+    [_children removeObject:w];
     [self resizeChildren];
 }
 
 - (void)resizeChildren
 {
-    if ([children count] == 0)
+    if ([_children count] == 0)
         return;
     
-    if (verticallySplit)
+    if (_verticallySplit)
     {
-        int heightPerWindow = [self height] / [children count];
+        int heightPerWindow = [self height] / [_children count];
         
         int i = 0;
-        for (Window *w in children)
+        for (Window *w in _children)
         {
             NSRect newRect;
             newRect.size.width = [self width];
             newRect.size.height = heightPerWindow;
             
-            NSPoint newOrigin = rect.origin;
+            NSPoint newOrigin = _rect.origin;
             newOrigin.y += i++ * heightPerWindow;
             
             newRect.origin = newOrigin;
@@ -113,16 +108,16 @@ static NSWindow *overlay;
     }
     else
     {
-        int widthPerWindow = [self width] / [children count];
+        int widthPerWindow = [self width] / [_children count];
         
         int i = 0;
-        for (Window *w in children)
+        for (Window *w in _children)
         {
             NSRect newRect;
             newRect.size.width = widthPerWindow;
             newRect.size.height = [self height];
             
-            NSPoint newOrigin = rect.origin;
+            NSPoint newOrigin = _rect.origin;
             newOrigin.x += i++ * widthPerWindow;
             
             newRect.origin = newOrigin;

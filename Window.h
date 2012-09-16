@@ -24,13 +24,13 @@
 
 @interface Window : NSObject
 
-@property(weak, readonly)   GTMAXUIElement  *element;
-@property(weak, readonly)   Application     *application;
+@property(readonly)   GTMAXUIElement  *element;
+@property(readonly)   Application     *application;
 @property(readonly)         BOOL            locked;
 @property(readonly)         NSRect          lockedRect;
 @property(readonly)         NSRect          restoredRect;
 @property(readonly)         BOOL            maximized;
-@property(weak)             Area            *area;
+@property             Area            *area;
 
 - (id)initWithElement:(GTMAXUIElement *)e andApplication:(Application *)a;
 - (NSArray *)attributes;
@@ -39,6 +39,7 @@
 - (void)miniaturized;
 - (void)deminiaturized;
 - (void)destroyed;
+- (bool)isMinimized;
 - (void)registerAXObserver;
 - (void)unregisterAXObserver;
 - (NSPoint)origin;

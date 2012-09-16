@@ -25,6 +25,8 @@
 
 @interface EventController : NSObject
 
++ (EventController *)sharedInstance;
+
 - (void)registerLeaderHandler;
 - (void)registerKeyHandlers;
 - (void)leaderEvent;

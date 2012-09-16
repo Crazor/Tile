@@ -21,7 +21,6 @@
 #import "GTMAXUIElement.h"
 #import "Application.h"
 #import "Area.h"
-#import "AreaController.h"
 
 /*
  * Available AX Attributes:
@@ -46,8 +45,10 @@
  * AXDefaultButton,
  * AXCancelButton,
  * AXDocument,
- * AXModal
- */ 
+ * AXModal,
+ * AXFullScreen,
+ * AXIdentifier
+ */
 
 // C Callback for AX Notifications
 static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef, CFStringRef notification, void *refcon)
@@ -56,23 +57,23 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	
 	if ([[self element] isEqual:[GTMAXUIElement elementWithElement:elementRef]])
 	{
-		if ([(__bridge_transfer NSString *)notification isEqualToString:@"AXWindowMoved"])
+		if ([(__bridge NSString *)notification isEqualToString:@"AXWindowMoved"])
 		{
 			[self moved];
 		}
-		if ([(__bridge_transfer NSString *)notification isEqualToString:@"AXWindowResized"])
+		if ([(__bridge NSString *)notification isEqualToString:@"AXWindowResized"])
 		{
 			[self resized];
 		}
-		if ([(__bridge_transfer NSString *)notification isEqualToString:@"AXWindowMiniaturized"])
+		if ([(__bridge NSString *)notification isEqualToString:@"AXWindowMiniaturized"])
 		{
 			[self miniaturized];
 		}
-		if ([(__bridge_transfer NSString *)notification isEqualToString:@"AXWindowDeminiaturized"])
+		if ([(__bridge NSString *)notification isEqualToString:@"AXWindowDeminiaturized"])
 		{
 			[self deminiaturized];
 		}
-        if ([(__bridge_transfer NSString *)notification isEqualToString:@"AXUIElementDestroyed"])
+        if ([(__bridge NSString *)notification isEqualToString:@"AXUIElementDestroyed"])
 		{
 			[self destroyed];
 		}
@@ -84,20 +85,12 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	AXObserverRef   observer;
 }
 
-@synthesize	element;
-@synthesize	application;
-@synthesize locked;
-@synthesize lockedRect;
-@synthesize maximized;
-@synthesize restoredRect;
-@synthesize area;
-
 - (id)initWithElement:(GTMAXUIElement *)e andApplication:(Application *)a
 {
 	if ((self = [super init]))
 	{
-		element = e;
-		application = a;
+		_element = e;
+		_application = a;
 		[self registerAXObserver];
 	}
 	return self;
@@ -116,6 +109,12 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 - (NSArray *)attributes
 {
 	return [[self element] accessibilityAttributeNames];
+}
+
+- (bool)isMinimized
+{
+    NSNumber *value = [[self element] accessibilityAttributeValue:(NSString *)kAXMinimizedAttribute];
+    return [value boolValue];
 }
 
 - (void)registerAXObserver
@@ -157,12 +156,13 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)unregisterAXObserver
 {
-	//NSLog(@"Unregistering Window Observer");
 	AXObserverRemoveNotification(observer, [[[self application] element] element], kAXWindowMovedNotification);
 	AXObserverRemoveNotification(observer, [[[self application] element] element], kAXWindowResizedNotification);
 	AXObserverRemoveNotification(observer, [[[self application] element] element], kAXWindowMiniaturizedNotification);
 	AXObserverRemoveNotification(observer, [[[self application] element] element], kAXWindowDeminiaturizedNotification);
     AXObserverRemoveNotification(observer, [[[self application] element] element], kAXUIElementDestroyedNotification);
+    
+    CFRunLoopRemoveSource([[NSRunLoop currentRunLoop] getCFRunLoop], AXObserverGetRunLoopSource(observer), kCFRunLoopDefaultMode);
 }
 
 
@@ -266,8 +266,8 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)destroyed
 {
-    [area removeChild:self];
-	NSLog(@"Window \"%@\" destroyed", self);
+    [_area removeChild:self];
+    [self unregisterAXObserver];
 }
 
 // Attributes
@@ -308,13 +308,13 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)lock
 {
-	locked = YES;
-	lockedRect = [self rect];
+	_locked = YES;
+	_lockedRect = [self rect];
 }
 
 - (void)unlock
 {
-	locked = NO;
+	_locked = NO;
 }
 
 - (void)restoreLockedSize
@@ -355,7 +355,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)toggleMaximized
 {
-	if (!maximized)
+	if (!_maximized)
 	{
 		[self maximize];
 	}
@@ -367,12 +367,14 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)maximize
 {
+#if 0
 	restoredRect = [self rect];
 	
 	Area *toplevelArea = [[AreaController sharedInstance] toplevelArea];
 	[self setRect:[toplevelArea rect]];
 	
 	maximized = YES;
+#endif
 }
 
 - (void)restore
@@ -386,11 +388,12 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	 */
 	[self setRect:rect];
 	
-	maximized = NO;
+	_maximized = NO;
 }
 
 - (void)restoreByDragging
 {
+#if 0
 	NSRect rect = restoredRect;
 	NSPoint mouse = [NSEvent mouseLocation];
 	NSRect screen = [[[AreaController sharedInstance] screen] frame];
@@ -399,31 +402,38 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	
 	[self setRect:rect];
 	maximized = NO;
+#endif
 }
 
 - (void)centerHorizontal
 {
+#if 0
 	NSRect rect = [self rect];
 	NSRect screen = [[[AreaController sharedInstance] screen] frame];
 	rect.origin.x = (screen.size.width / 2) - (rect.size.width / 2);
 	[self setRect:rect];
+#endif
 }
 
 - (void)centerVertical
 {
+#if 0
 	NSRect rect = [self rect];
 	NSRect screen = [[[AreaController sharedInstance] screen] frame];
 	rect.origin.y = (screen.size.height / 2) - (rect.size.height / 2);
 	[self setRect:rect];
+#endif
 }
 
 - (void)center
 {
+#if 0
 	NSRect rect = [self rect];
 	NSRect screen = [[[AreaController sharedInstance] screen] frame];
 	rect.origin.x = (screen.size.width / 2) - (rect.size.width / 2);
 	rect.origin.y = (screen.size.height / 2) - (rect.size.height / 2);
 	[self setRect:rect];
+#endif
 }
 
 @end

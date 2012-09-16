@@ -24,52 +24,45 @@
 
 @implementation WindowController
 
-@synthesize applications;
-
-static WindowController *sharedInstance;
-
-+ (void)initialize
-{
-	static BOOL initialized = NO;
-	if(!initialized)
-	{
-		sharedInstance = [[WindowController alloc] init];
-		initialized = YES;
-	}
-}
-
 + (WindowController *)sharedInstance
 {
-	return sharedInstance;
+	static WindowController *sharedInstance;
+
+    if (!sharedInstance)
+    {
+        sharedInstance = [[WindowController alloc] init];
+    }
+
+    return sharedInstance;
 }
 
 - (id)init
 {
-	if (sharedInstance)
-	{
-		return sharedInstance;
-	}
-	
 	if (self = [super init])
 	{
-		applications = [NSMutableArray array];
+		_applications = [NSMutableArray array];
+
+        [self checkIsAXAPIEnabled];
+        [self registerWithNotificationCenter];
+        [self populateAppList];
 	}
-	
+
 	return self;
 }
 
-- (void)awakeFromNib
+- (void)checkIsAXAPIEnabled
 {
 	if (!AXAPIEnabled())
 	{
-		NSLog(@"Please enable \"Access for assistive devices\" in System Preferences");
-		
-		int ret = NSRunAlertPanel(@"This program requires that the Accessibility API be enabled.", @"Would you like to launch System Preferences so that you can turn on \"Enable access for assistive devices\"?", @"OK", @"Cancel", @"");
+		int ret = NSRunAlertPanel(@"This program requires that the Accessibility API be enabled.",
+                                  @"Would you like to launch System Preferences so that you can turn on \"Enable access for assistive devices\"?",
+                                  @"OK", @"Cancel", @"");
 		
 		switch (ret)
 		{
 			case NSAlertDefaultReturn:
-				[[NSWorkspace sharedWorkspace] openFile:@"/System/Library/PreferencePanes/UniversalAccessPref.prefPane"];
+				[[NSWorkspace sharedWorkspace]
+                 openFile:@"/System/Library/PreferencePanes/UniversalAccessPref.prefPane"];
 				[NSApp terminate:self];
 				break;
 			case NSAlertAlternateReturn:
@@ -80,21 +73,17 @@ static WindowController *sharedInstance;
 				break;
 		}
 	}
-		
-	[self populateAppList];
-	[self registerWithNotificationCenter];
 }
 
 - (void)dealloc
 {
-	[self applications];
 	[[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 }
 
 - (NSArray *)windows
 {
 	NSMutableArray *array = [NSMutableArray array];
-	for (Application *a in applications)
+	for (Application *a in _applications)
 	{
 		[array addObjectsFromArray:[a windows]];
 	}
@@ -105,14 +94,9 @@ static WindowController *sharedInstance;
 {
 	// Populate appList with running apps
 	NSWorkspace *ws = [NSWorkspace sharedWorkspace];
-	NSRunningApplication *runningApplication;
-	for (runningApplication in [ws runningApplications])
+	for (NSRunningApplication *runningApplication in [ws runningApplications])
 	{
-        if ([runningApplication activationPolicy] == NSApplicationActivationPolicyRegular // Skip agents etc.
-            && [runningApplication processIdentifier] != [[NSProcessInfo processInfo] processIdentifier]) // Skip self
-        {
-            [[self applications] addObject:[[Application alloc] initWithRunningApplication:runningApplication]];
-        }
+        [self addApp:runningApplication];
 	}
 }
 
@@ -129,27 +113,41 @@ static WindowController *sharedInstance;
 		   selector:@selector(appTerminated:)
 			   name:NSWorkspaceDidTerminateApplicationNotification
 			 object:nil];
+    
+    // Other interesting notifications:
+    // NSWorkspaceDidHideApplicationNotification
+    // NSWorkspaceDidUnhideApplicationNotification
+    // NSWorkspaceDidActivateApplicationNotification
+    // NSWorkspaceDidDeactivateApplicationNotification
 }
 
-- (void)removeApp:(NSDictionary *)appDict
+- (void)addApp:(NSRunningApplication *)application
 {
-	NSLog(@"removeApp: to be implemented...");
+    if ([application activationPolicy]
+        == NSApplicationActivationPolicyRegular // Skip agents
+        && [application processIdentifier]
+        != [[NSProcessInfo processInfo] processIdentifier]) // Skip self
+    {
+        [[self applications] addObject:
+         [[Application alloc] initWithRunningApplication:application]];
+    }
+}
+
+- (void)removeApp:(NSRunningApplication *)application
+{
+	[[self applications] removeObject:application];
 }
 
 - (void)appLaunched:(NSNotification *)notification
 {
-    NSRunningApplication *application = [[notification userInfo] objectForKey:@"NSWorkspaceApplicationKey"];
-    if ([application processIdentifier] != [[NSProcessInfo processInfo] processIdentifier])
-    {
-        [[self applications] addObject:[[Application alloc] initWithRunningApplication:application]];
-         NSLog(@"appLaunched %@", [[notification userInfo] objectForKey:@"NSWorkspaceApplicationKey"]);
-    }
+    NSRunningApplication *application = [notification userInfo][@"NSWorkspaceApplicationKey"];
+    [self addApp:application];
 }
 
 - (void)appTerminated:(NSNotification *)notification
 {
-	NSLog(@"appTerminated: to be implemented...");
-	//[self removeApp:[notification userInfo]];
+    NSRunningApplication *application = [notification userInfo][@"NSWorkspaceApplicationKey"];
+	[self removeApp:application];
 }
 
 - (Application *)applicationFromElement:(GTMAXUIElement *)e
@@ -159,7 +157,7 @@ static WindowController *sharedInstance;
 		if ([[a element] isEqualTo:e])
 			return a;
 	}
-	NSLog(@"Application for Element \"%@\" not found!", e);
+	NSLog(@"Application for element \"%@\" not found!", e);
 	return nil;
 }
 
@@ -167,8 +165,13 @@ static WindowController *sharedInstance;
 {
 	GTMAXUIElement *systemWide = [GTMAXUIElement systemWideElement];
 	
-	Application *focusedApplication = [self applicationFromElement:[systemWide accessibilityAttributeValue:@"AXFocusedApplication"]];
-	Window *focusedWindow = [focusedApplication windowFromElement:[[systemWide accessibilityAttributeValue:@"AXFocusedUIElement"] accessibilityAttributeValue:@"AXWindow"]];
+	Application *focusedApplication = [self applicationFromElement:
+                                       [systemWide accessibilityAttributeValue:
+                                        @"AXFocusedApplication"]];
+	Window *focusedWindow = [focusedApplication windowFromElement:
+                             [[systemWide accessibilityAttributeValue:
+                               @"AXFocusedUIElement"]
+                                accessibilityAttributeValue:@"AXWindow"]];
 	
 	return focusedWindow;
 }

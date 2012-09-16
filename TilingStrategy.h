@@ -17,15 +17,15 @@
  * along with Tile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+@class Window;
 @class Area;
 
-@interface AreaController : NSObject
+@protocol TilingStrategy
 
-@property(weak, readonly)   NSScreen	*screen;
-@property(readonly)         Area		*toplevelArea;
+@property Area* area;
 
-+ (AreaController *)sharedInstance;
-
-- (void)discoverScreens;
+- (void)addWindow:(Window *)window;
+- (void)addWindows:(NSArray *)windows;
+- (void)tileWindows;
 
 @end

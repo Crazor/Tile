@@ -20,14 +20,14 @@
 #import "Application.h"
 #import "Window.h"
 #import "GTMAXUIElement.h"
-#import "AreaController.h"
 #import "Area.h"
+#import "TilingController.h"
 
 static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef, CFStringRef notification, void *refcon)
 {
 	GTMAXUIElement *element = [GTMAXUIElement elementWithElement:elementRef];
 	Application *application = (__bridge_transfer Application *)refcon;
-	NSString *notificationString = (__bridge_transfer NSString *)notification;
+	NSString *notificationString = (__bridge NSString *)notification;
 	
 	if ([notificationString isEqualToString:(NSString *)kAXWindowCreatedNotification])
 	{
@@ -35,7 +35,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	}
 	if ([notificationString isEqualToString:(NSString *)kAXUIElementDestroyedNotification])
 	{
-		[application windowDestroyed:element];
+		//[application windowDestroyed:element];
 	}
 }
 
@@ -44,27 +44,20 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	AXObserverRef	observer;
 }
 
-@synthesize identifier;
-@synthesize name;
-@synthesize pid;
-@synthesize element;
-@synthesize windows;
-
 - (id)initWithRunningApplication:(NSRunningApplication *)runningApplication
 {
 	if ((self = [super init]))
 	{
-		windows = [[NSMutableArray alloc] init];
+		_windows = [[NSMutableArray alloc] init];
 		[self setPid:		[runningApplication processIdentifier]];
 		[self setIdentifier:[runningApplication bundleIdentifier]];
 		[self setName:		[runningApplication	localizedName]];
-		[self setElement:	[GTMAXUIElement elementWithProcessIdentifier:pid]];
+		[self setElement:	[GTMAXUIElement elementWithProcessIdentifier:_pid]];
 
 		for (GTMAXUIElement *e in [[self element] accessibilityAttributeValue:(NSString *)kAXWindowsAttribute])
 		{
 			Window *w = [[Window alloc] initWithElement:e andApplication:self];
-			
-			[[self windows] addObject:w];
+            [[TilingController sharedInstance] addWindow:w];
 		}
 		
 		[self registerAXObserver];
@@ -79,11 +72,12 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)registerAXObserver
 {
-	if (AXObserverCreate(pid, axObserverCallback, &observer))
+	if (AXObserverCreate(_pid, axObserverCallback, &observer))
 	{
 		NSLog(@"Error creating AXObserver for %@", [self identifier]);
 		return;
 	}
+    
 	if ((AXObserverAddNotification(observer, [[self element] element], kAXWindowCreatedNotification, (__bridge_retained void *)self)))
 	{
 		NSLog(@"Error adding AXWindowCreatedNotification for %@", [self identifier]);
@@ -115,10 +109,9 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)windowCreated:(GTMAXUIElement *)e
 {
-	//NSLog(@"Window created: %@", e);
 	Window *w = [[Window alloc] initWithElement:e andApplication:self];
 	[[self windows] addObject:w];
-	[[[AreaController sharedInstance] toplevelArea] addChild:w];
+    [[[TilingController sharedInstance] tilingStrategy] addWindow:w];
 }
 
 - (void)windowDestroyed:(GTMAXUIElement *)e
@@ -128,7 +121,6 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 		if ([[w element] isEqualTo:e])
 		{
 			[[self windows] removeObject:w];
-            
 			break;
 		}
 	}

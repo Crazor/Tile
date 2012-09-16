@@ -154,7 +154,7 @@
 - (CFTypeRef)accessibilityCopyAttributeCFValue:(NSString*)attribute {
 	CFTypeRef value = NULL;
 	AXError error = AXUIElementCopyAttributeValue(element_,
-												  (__bridge CFStringRef)attribute,
+												  (__bridge_retained CFStringRef)attribute,
 												  &value);
 	if (error == kAXErrorNoValue) {
 		value = kCFNull;

@@ -7,41 +7,30 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * Tile is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with Tile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-@class GTMAXUIElement;
-@class Application;
-@class Window;
+#import <Foundation/Foundation.h>
+#import "TilingStrategy.h"
 
-@interface WindowController : NSObject
+@interface TilingController : NSObject
 
-@property(readonly)   NSMutableArray  *applications;
+@property (nonatomic)id<TilingStrategy> tilingStrategy;
+@property (readonly) NSMutableArray *strategies;
+@property (readonly) Area *toplevelArea;
+@property (readonly) NSSize screenResolution;
 
-+ (WindowController *)sharedInstance;
++ (TilingController *)sharedInstance;
 
-- (NSArray *)windows;
-- (void)populateAppList;
-- (void)registerWithNotificationCenter;
-
-- (void)addApp:(NSRunningApplication *)application;
-- (void)removeApp:(NSRunningApplication *)application;
-
-- (void)appLaunched:(NSNotification *)notification;
-- (void)appTerminated:(NSNotification *)notification;
-
-- (Application *)applicationFromElement:(GTMAXUIElement *)e;
-
-- (Window *)focusedWindow;
-- (void)lockCurrentWindow;
-- (void)maximizeCurrentWindow;
-- (void)centerCurrentWindow;
+- (void)addStrategy:(id<TilingStrategy>)aStrategy;
+- (void)addWindow:(Window *)w;
+- (void)discoverScreens;
 
 @end

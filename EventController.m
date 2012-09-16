@@ -51,21 +51,36 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 	id							eventTargets[EVENT_ID_MAX];
 }
 
-- (void)awakeFromNib
++ (EventController *)sharedInstance
 {
-	[self registerLeaderHandler];
-	
-	WindowController *wc = [WindowController sharedInstance];
-	
-	[self setSelector:@selector(lockCurrentWindow)		ofTarget:wc		forActionID:37]; // L
-	[self setSelector:@selector(quit)					ofTarget:self	forActionID:12]; // Q
-	[self setSelector:@selector(maximizeCurrentWindow)	ofTarget:wc		forActionID:46]; // M
-	[self setSelector:@selector(centerCurrentWindow)	ofTarget:wc		forActionID: 8]; // C
-	
-	[[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self 
-														   selector: @selector(userDefaultsDidChange:)
-															   name: NSUserDefaultsDidChangeNotification
-															 object: NULL];
+	static EventController *sharedInstance;
+
+    if (!sharedInstance)
+    {
+        sharedInstance = [[EventController alloc] init];
+    }
+
+    return sharedInstance;
+}
+
+- (id)init
+{
+    if (self = [super init])
+    {
+        [self registerLeaderHandler];
+
+        WindowController *wc = [WindowController sharedInstance];
+
+        [self setSelector:@selector(lockCurrentWindow)		ofTarget:wc		forActionID:37]; // L
+        [self setSelector:@selector(quit)					ofTarget:self	forActionID:12]; // Q
+        [self setSelector:@selector(maximizeCurrentWindow)	ofTarget:wc		forActionID:46]; // M
+        [self setSelector:@selector(centerCurrentWindow)	ofTarget:wc		forActionID: 8]; // C
+
+        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self
+                                                               selector: @selector(userDefaultsDidChange:)
+                                                                   name: NSUserDefaultsDidChangeNotification
+                                                                 object: NULL];
+    }
 }
 
 - (void)userDefaultsDidChange: (NSNotification *)notification
@@ -164,7 +179,6 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 	}
 	else if ([target respondsToSelector:selector])
 	{
-		NSLog(@"Performing selector %@ on target %@ (event ID: %d)", NSStringFromSelector(selector), NSStringFromClass([target class]), ID);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 		[target performSelector:selector];
@@ -186,7 +200,6 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 
 - (void)quit
 {
-	NSLog(@"Terminating...");
 	[[NSApplication sharedApplication] terminate:self];
 }
 
