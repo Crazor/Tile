@@ -27,7 +27,7 @@
 - (NSString*)stringValueForCFType:(CFTypeRef)cfValue;
 - (NSString*)stringValueForCFArray:(CFArrayRef)cfArray;
 - (NSString*)stringValueForAXValue:(AXValueRef)axValueRef;
-- (CFTypeRef)createCFTypeOfSameTypeAs:(CFTypeRef)valueType
+- (CFTypeRef)copyCFTypeOfSameTypeAs:(CFTypeRef)valueType
 						   withString:(NSString*)string;
 - (AXValueRef)createAXValueOfType:(AXValueType)type
 					   withString:(NSString*)stringValue;
@@ -301,12 +301,12 @@
 - (BOOL)setStringValue:(NSString*)string forAttribute:(NSString*)attribute {
 	CFTypeRef cfPreviousValue = [self accessibilityCopyAttributeCFValue:attribute];
 	if (!cfPreviousValue || cfPreviousValue == kCFNull) return NO;
-	CFTypeRef cfValue = [self createCFTypeOfSameTypeAs:cfPreviousValue withString:string];
-	//CFRelease(cfPreviousValue);
+	CFTypeRef cfValue = [self copyCFTypeOfSameTypeAs:cfPreviousValue withString:string];
+	CFRelease(cfPreviousValue);
 	BOOL isGood = [self setAccessibilityValue:cfValue forAttribute:attribute];
-	//if (cfValue) {
-	//	CFRelease(cfValue);
-	//}
+	if (cfValue) {
+		CFRelease(cfValue);
+	}
 	return isGood;
 }
 
@@ -459,27 +459,27 @@
 		stringValue = CFBooleanGetValue(cfValue) ? @"YES" : @"NO";
 	} else {
 		CFStringRef description = CFCopyDescription(cfValue);
-		stringValue = (__bridge id)description;
-		CFRelease(description);
+		stringValue = CFBridgingRelease(description);
+		//CFRelease(description);
 	}
 	return stringValue;
 }
 
 
-- (CFTypeRef)createCFTypeOfSameTypeAs:(CFTypeRef)previousValue
+- (CFTypeRef)copyCFTypeOfSameTypeAs:(CFTypeRef)previousValue
 						   withString:(NSString*)string {
 	CFTypeRef value = NULL;
 	CFTypeID valueType = CFGetTypeID(previousValue);
 	if (valueType == CFStringGetTypeID()) {
 		value = CFStringCreateCopy(NULL, (__bridge CFStringRef)string);
-        CFRelease(value);
+        //CFRelease(value);
 	} else if (valueType == CFURLGetTypeID()) {
 		value = CFURLCreateWithString(NULL, (__bridge CFStringRef)string, NULL);
-        CFRelease(value);
+        //CFRelease(value);
 	} else if (valueType == CFNumberGetTypeID()) {
 		double dValue = [string doubleValue];
 		value = CFNumberCreate(NULL, kCFNumberDoubleType, &dValue);
-        CFRelease(value);
+        //CFRelease(value);
 	} else if (valueType == CFNullGetTypeID()) {
 		value = kCFNull;
 	} else if (valueType == AXValueGetTypeID()) {
