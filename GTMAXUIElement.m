@@ -368,7 +368,7 @@
 			break;
 			
 		default:
-			NSLog(@"Unknown AXValueType: %d", type);
+			log(@"Unknown AXValueType: %d", type);
 			return NULL;
 			break;
 	}
@@ -388,7 +388,7 @@
 	} axValue;
 	Boolean valueConvert = AXValueGetValue(axValueRef, axValueType, &axValue);
 	if (!valueConvert) {
-		NSLog(@"Unable to AXValueGetValue");
+		log(@"Unable to AXValueGetValue");
 		return nil;
 	}
 	switch (axValueType) {
@@ -413,7 +413,7 @@
 			break;
 			
 		default:
-			NSLog(@"Unknown AXValueType: %d", axValueType);
+			log(@"Unknown AXValueType: %d", axValueType);
 			break;
 	}
 	return stringValue;

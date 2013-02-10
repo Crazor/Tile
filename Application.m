@@ -74,18 +74,18 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 {
 	if (AXObserverCreate(_pid, axObserverCallback, &observer))
 	{
-		NSLog(@"Error creating AXObserver for %@", [self identifier]);
+		log(@"Error creating AXObserver for %@", [self identifier]);
 		return;
 	}
     
 	if ((AXObserverAddNotification(observer, [[self element] element], kAXWindowCreatedNotification, (__bridge_retained void *)self)))
 	{
-		NSLog(@"Error adding AXWindowCreatedNotification for %@", [self identifier]);
+		log(@"Error adding AXWindowCreatedNotification for %@", [self identifier]);
 		return;
 	}
 	if (AXObserverAddNotification(observer, [[self element] element], kAXUIElementDestroyedNotification, (__bridge_retained void *)self))
 	{
-		NSLog(@"Error adding AXUIElementDestroyedNotification for %@", [self identifier]);
+		log(@"Error adding AXUIElementDestroyedNotification for %@", [self identifier]);
 		return;
 	}
 	CFRunLoopAddSource([[NSRunLoop currentRunLoop] getCFRunLoop], AXObserverGetRunLoopSource(observer), kCFRunLoopDefaultMode);
@@ -136,7 +136,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 		}
 	}
 	
-	NSLog(@"Window for Element \"%@\" not found!", e);
+	log(@"Window for Element \"%@\" not found!", e);
 	return nil;
 }
 

@@ -85,7 +85,7 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 
 - (void)userDefaultsDidChange: (NSNotification *)notification
 {
-	NSLog(@"User Defaults did change. Name: %@", [notification name]);
+	log(@"User Defaults did change. Name: %@", [notification name]);
 }
 
 - (void)registerLeaderHandler
@@ -104,7 +104,7 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 	OSStatus status = RegisterEventHotKey(kVK_Space, controlKey, hotKeyID, GetApplicationEventTarget(), 0, &hotKeyRef);
 	if (status != noErr)
 	{
-		NSLog(@"Error %d registering leader hotkey handler!", status);
+		log(@"Error %d registering leader hotkey handler!", status);
 	}
 }
 
@@ -112,7 +112,7 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 {
 	if (keyHandlersRegistered)
 	{
-		NSLog(@"Key handlers already registered.");
+		log(@"Key handlers already registered.");
 		return;
 	}
 	
@@ -132,7 +132,7 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 		OSStatus status = RegisterEventHotKey(i, 0, hotKeyID, GetApplicationEventTarget(), 0, &(keyRef[i]));
 		if (status != noErr)
 		{
-			NSLog(@"Error %d registering key handler %x!", status, i);
+			log(@"Error %d registering key handler %x!", status, i);
 		}
 	}
 	
@@ -143,7 +143,7 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 {
 	if (!keyHandlersRegistered)
 	{
-		NSLog(@"Key handlers not registered.");
+		log(@"Key handlers not registered.");
 		return;
 	}
 	
@@ -152,7 +152,7 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 		OSStatus status = UnregisterEventHotKey(keyRef[i]);
 		if (status != noErr)
 		{
-			NSLog(@"Error %d unregistering key handler %x!", status, i);
+			log(@"Error %d unregistering key handler %x!", status, i);
 		}
 	}
 	
@@ -171,11 +171,11 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 	
 	if (!target)
 	{
-		NSLog(@"No target defined for event ID %d", ID);
+		log(@"No target defined for event ID %d", ID);
 	}
 	else if (!selector)
 	{
-		NSLog(@"No selector defined for event ID %d", ID);
+		log(@"No selector defined for event ID %d", ID);
 	}
 	else if ([target respondsToSelector:selector])
 	{
@@ -186,7 +186,7 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 	}
 	else
 	{
-		NSLog(@"Target does not respond to selector for event ID %d", ID);
+		log(@"Target does not respond to selector for event ID %d", ID);
 	}
 	
 	[self unregisterKeyHandlers];

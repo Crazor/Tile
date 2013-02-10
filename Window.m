@@ -121,7 +121,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 {
 	if (AXObserverCreate([[self application] pid], axObserverCallback, &observer))
 	{
-		NSLog(@"Error creating AXObserver for %@", self);
+		log(@"Error creating AXObserver for %@", self);
 		return;
 	}
 
@@ -129,27 +129,27 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowMovedNotification, (__bridge_retained void *)self))
 	{
-		NSLog(@"Error adding kAXWindowMovedNotification for %@", self);
+		log(@"Error adding kAXWindowMovedNotification for %@", self);
 		return;
 	}
 	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowResizedNotification, (__bridge_retained void *)self))
 	{
-		NSLog(@"Error adding kAXWindowResizedNotification for %@", self);
+		log(@"Error adding kAXWindowResizedNotification for %@", self);
 		return;
 	}
 	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowMiniaturizedNotification, (__bridge_retained void *)self))
 	{
-		NSLog(@"Error adding kAXWindowMiniaturizedNotification for %@", self);
+		log(@"Error adding kAXWindowMiniaturizedNotification for %@", self);
 		return;
 	}
 	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowDeminiaturizedNotification, (__bridge_retained void *)self))
 	{
-		NSLog(@"Error adding kAXWindowDeminiaturizedNotification for %@", self);
+		log(@"Error adding kAXWindowDeminiaturizedNotification for %@", self);
 		return;
 	}
 	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXUIElementDestroyedNotification, (__bridge_retained void *)self))
 	{
-		NSLog(@"Error adding kAXUIElementDestroyedNotification for %@", self);
+		log(@"Error adding kAXUIElementDestroyedNotification for %@", self);
 		return;
 	}
 }
@@ -179,7 +179,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	
 	// The mouse coordinate system has its origin at the lower left corner of the screen
 	mouse.y = screen.size.height - mouse.y + 22;
-	//NSLog(@"%@: Origin: %@, Mouse: %@", [self description], NSStringFromPoint([self origin]), NSStringFromPoint(mouse));
+	//log(@"%@: Origin: %@, Mouse: %@", [self description], NSStringFromPoint([self origin]), NSStringFromPoint(mouse));
 
 	if ([self locked])
 	{
@@ -205,7 +205,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	/*
 	if (NSEqualPoints([self origin], screen.origin))
 	{
-		//NSLog(@"Ignoring spurious move event!");
+		//log(@"Ignoring spurious move event!");
 		return;
 	}
 	*/
@@ -256,12 +256,12 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)miniaturized
 {
-	NSLog(@"Window \"%@\" miniaturized", self);
+	log(@"Window \"%@\" miniaturized", self);
 }
 
 - (void)deminiaturized
 {
-	NSLog(@"Window \"%@\" deminiaturized", self);
+	log(@"Window \"%@\" deminiaturized", self);
 }
 
 - (void)destroyed
@@ -325,7 +325,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	}
 	else
 	{
-		NSLog(@"Trying to restore non-locked window's size!");
+		log(@"Trying to restore non-locked window's size!");
 	}
 }
 
@@ -337,7 +337,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	}
 	else
 	{
-		NSLog(@"Trying to restore non-locked window's position!");
+		log(@"Trying to restore non-locked window's position!");
 	}
 }
 
@@ -349,7 +349,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	}
 	else
 	{
-		NSLog(@"Trying to restore non-locked window's rect!");
+		log(@"Trying to restore non-locked window's rect!");
 	}	
 }
 

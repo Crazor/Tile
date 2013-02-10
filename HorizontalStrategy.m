@@ -84,7 +84,7 @@ static HorizontalStrategy *sharedInstance;
 
     if (windowsToTile.count == 0)
     {
-        NSLog(@"No windows to tile!");
+        log(@"No windows to tile!");
         return;
     }
 
@@ -95,7 +95,7 @@ static HorizontalStrategy *sharedInstance;
     {
         [w setOrigin:currentOrigin];
         [w setSize:size];
-        NSLog(@"Window %@ origin %@ size %@", w, NSStringFromPoint(currentOrigin), NSStringFromSize(size));
+        log(@"Window %@ origin %@ size %@", w, NSStringFromPoint(currentOrigin), NSStringFromSize(size));
         currentOrigin.y += height;
     }
 }

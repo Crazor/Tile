@@ -157,7 +157,7 @@
 		if ([[a element] isEqualTo:e])
 			return a;
 	}
-	NSLog(@"Application for element \"%@\" not found!", e);
+	log(@"Application for element \"%@\" not found!", e);
 	return nil;
 }
 
@@ -181,12 +181,12 @@
 	Window *focusedWindow = [self focusedWindow];
 	if ([focusedWindow locked])
 	{
-		NSLog(@"Unlocking Window: %@", focusedWindow);
+		log(@"Unlocking Window: %@", focusedWindow);
 		[focusedWindow unlock];
 	}
 	else
 	{
-		NSLog(@"Locking Window: %@", focusedWindow);
+		log(@"Locking Window: %@", focusedWindow);
 		[focusedWindow lock];
 	}
 }

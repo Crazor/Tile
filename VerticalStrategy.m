@@ -84,7 +84,7 @@ static VerticalStrategy *sharedInstance;
 
     if (windowsToTile.count == 0)
     {
-        NSLog(@"No windows to tile!");
+        log(@"No windows to tile!");
         return;
     }
 
@@ -95,7 +95,7 @@ static VerticalStrategy *sharedInstance;
     {
         [w setOrigin:currentOrigin];
         [w setSize:size];
-        //NSLog(@"Window %@ origin %@ size %@", w, NSStringFromPoint(currentOrigin), NSStringFromSize(size));
+        //log(@"Window %@ origin %@ size %@", w, NSStringFromPoint(currentOrigin), NSStringFromSize(size));
         currentOrigin.x += width;
     }
 }

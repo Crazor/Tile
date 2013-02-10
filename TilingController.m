@@ -110,7 +110,7 @@ static NSScreen         *screen;
 			mainScreen = @"";
 		}
 		
-		NSLog(@"Screen %d: Resolution: %@ %@; Visible Frame: %@", i, [aScreen deviceDescription][NSDeviceSize], mainScreen, NSStringFromSize(aScreen.visibleFrame.size));
+		log(@"Screen %d: Resolution: %@ %@; Visible Frame: %@", i, [aScreen deviceDescription][NSDeviceSize], mainScreen, NSStringFromSize(aScreen.visibleFrame.size));
 
 		if (i == 0)
 		{
@@ -121,7 +121,7 @@ static NSScreen         *screen;
 		}
 		else
 		{
-			NSLog(@"Creating toplevelArea only on main screen for now!");
+			log(@"Creating toplevelArea only on main screen for now!");
 		}
 	}
 }
