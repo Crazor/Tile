@@ -95,7 +95,7 @@ static VerticalStrategy *sharedInstance;
     {
         [w setOrigin:currentOrigin];
         [w setSize:size];
-        //log(@"Window %@ origin %@ size %@", w, NSStringFromPoint(currentOrigin), NSStringFromSize(size));
+        log(@"Window %@ origin %@ size %@", w, NSStringFromPoint(currentOrigin), NSStringFromSize(size));
         currentOrigin.x += width;
     }
 }

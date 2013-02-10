@@ -179,7 +179,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	
 	// The mouse coordinate system has its origin at the lower left corner of the screen
 	mouse.y = screen.size.height - mouse.y + 22;
-	//log(@"%@: Origin: %@, Mouse: %@", [self description], NSStringFromPoint([self origin]), NSStringFromPoint(mouse));
+	log(@"%@: Origin: %@, Mouse: %@", [self description], NSStringFromPoint([self origin]), NSStringFromPoint(mouse));
 
 	if ([self locked])
 	{
@@ -205,7 +205,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	/*
 	if (NSEqualPoints([self origin], screen.origin))
 	{
-		//log(@"Ignoring spurious move event!");
+		log(@"Ignoring spurious move event!");
 		return;
 	}
 	*/
