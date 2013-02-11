@@ -1,7 +1,7 @@
 /*
  * This file is part of the Tile project.
  *
- * Copyright 2009-2012 Crazor <crazor@gmail.com>
+ * Copyright 2009-2013 Crazor <crazor@gmail.com>
  *
  * Tile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,13 +19,13 @@
 
 #import "Application.h"
 #import "Window.h"
-#import "GTMAXUIElement.h"
+#import "UIElement.h"
 #import "Area.h"
 #import "TilingController.h"
 
 static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef, CFStringRef notification, void *refcon)
 {
-	GTMAXUIElement *element = [GTMAXUIElement elementWithElement:elementRef];
+	UIElement *element = [[UIElement alloc] initWithElementRef:elementRef];
 	Application *application = (__bridge_transfer Application *)refcon;
 	NSString *notificationString = (__bridge NSString *)notification;
 	
@@ -48,16 +48,16 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 {
 	if ((self = [super init]))
 	{
-		_windows = [[NSMutableArray alloc] init];
-		[self setPid:		[runningApplication processIdentifier]];
-		[self setIdentifier:[runningApplication bundleIdentifier]];
-		[self setName:		[runningApplication	localizedName]];
-		[self setElement:	[GTMAXUIElement elementWithProcessIdentifier:_pid]];
+		_windows    = [[NSMutableArray alloc] init];
+		_pid        = runningApplication.processIdentifier;
+		_identifier = runningApplication.bundleIdentifier;
+		_name		= runningApplication.localizedName;
+		_element	= [[UIElement alloc] initWithProcessIdentifier:_pid];
 
-		for (GTMAXUIElement *e in [[self element] accessibilityAttributeValue:(NSString *)kAXWindowsAttribute])
+		for (UIElement *e in [self.element accessibilityAttributeValue:(NSString *)kAXWindowsAttribute])
 		{
 			Window *w = [[Window alloc] initWithElement:e andApplication:self];
-            [[TilingController sharedInstance] addWindow:w];
+            [TilingController.sharedInstance addWindow:w];
 		}
 		
 		[self registerAXObserver];
@@ -74,63 +74,63 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 {
 	if (AXObserverCreate(_pid, axObserverCallback, &observer))
 	{
-		log(@"Error creating AXObserver for %@", [self identifier]);
+		log(@"Error creating AXObserver for %@", self.identifier);
 		return;
 	}
     
-	if ((AXObserverAddNotification(observer, [[self element] element], kAXWindowCreatedNotification, (__bridge_retained void *)self)))
+	if ((AXObserverAddNotification(observer, self.element.elementRef, kAXWindowCreatedNotification, (__bridge_retained void *)self)))
 	{
-		log(@"Error adding AXWindowCreatedNotification for %@", [self identifier]);
+		log(@"Error adding AXWindowCreatedNotification for %@", self.identifier);
 		return;
 	}
-	if (AXObserverAddNotification(observer, [[self element] element], kAXUIElementDestroyedNotification, (__bridge_retained void *)self))
+	if (AXObserverAddNotification(observer, self.element.elementRef, kAXUIElementDestroyedNotification, (__bridge_retained void *)self))
 	{
-		log(@"Error adding AXUIElementDestroyedNotification for %@", [self identifier]);
+		log(@"Error adding AXUIElementDestroyedNotification for %@", self.identifier);
 		return;
 	}
-	CFRunLoopAddSource([[NSRunLoop currentRunLoop] getCFRunLoop], AXObserverGetRunLoopSource(observer), kCFRunLoopDefaultMode);
+	CFRunLoopAddSource(NSRunLoop.currentRunLoop.getCFRunLoop, AXObserverGetRunLoopSource(observer), kCFRunLoopDefaultMode);
 }
 
 - (void)unregisterAXObserver
 {
-	AXObserverRemoveNotification(observer, [[self element] element], kAXWindowCreatedNotification);
-	AXObserverRemoveNotification(observer, [[self element] element], kAXUIElementDestroyedNotification);	
+	AXObserverRemoveNotification(observer, self.element.elementRef, kAXWindowCreatedNotification);
+	AXObserverRemoveNotification(observer, self.element.elementRef, kAXUIElementDestroyedNotification);	
 }
 
 - (NSString *)description
 {
-	return [[self element] stringValueForAttribute:(NSString *)kAXTitleAttribute];
+	return [self.element stringValueForAttribute:(NSString *)kAXTitleAttribute];
 }
 
 - (NSArray *)attributes
 {
-	return [[self element] accessibilityAttributeNames];
+	return self.element.accessibilityAttributeNames;
 }
 
-- (void)windowCreated:(GTMAXUIElement *)e
+- (void)windowCreated:(UIElement *)e
 {
 	Window *w = [[Window alloc] initWithElement:e andApplication:self];
-	[[self windows] addObject:w];
-    [[[TilingController sharedInstance] tilingStrategy] addWindow:w];
+	[self.windows addObject:w];
+    [TilingController.sharedInstance.tilingStrategy addWindow:w];
 }
 
-- (void)windowDestroyed:(GTMAXUIElement *)e
+- (void)windowDestroyed:(UIElement *)e
 {
-	for (Window *w in [self windows])
+	for (Window *w in self.windows)
 	{
-		if ([[w element] isEqualTo:e])
+		if ([w.element isEqualTo:e])
 		{
-			[[self windows] removeObject:w];
+			[self.windows removeObject:w];
 			break;
 		}
 	}
 }
 
-- (Window *)windowFromElement:(GTMAXUIElement *)e
+- (Window *)windowFromElement:(UIElement *)e
 {
-	for (Window *w in [self windows])
+	for (Window *w in self.windows)
 	{
-		if ([[w element] isEqualTo:e])
+		if ([w.element isEqualTo:e])
 		{
 			return w;
 		}

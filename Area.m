@@ -1,7 +1,7 @@
 /*
  * This file is part of the Tile project.
  *
- * Copyright 2009-2012 Crazor <crazor@gmail.com>
+ * Copyright 2009-2013 Crazor <crazor@gmail.com>
  *
  * Tile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,19 +38,14 @@ static NSWindow *overlay;
 	return self;
 }
 
-- (void)dealloc
-{
-	[self children];
-}
-
 - (int)width
 {
-	return [self rect].size.width;
+	return self.rect.size.width;
 }
 
 - (int)height
 {
-	return [self rect].size.height;
+	return self.rect.size.height;
 }
 
 - (void)drawOverlay
@@ -60,69 +55,69 @@ static NSWindow *overlay;
                                           styleMask:NSBorderlessWindowMask
                                             backing:NSBackingStoreBuffered
                                               defer:NO];
-	[overlay setBackgroundColor:[NSColor lightGrayColor]];
-	[overlay setOpaque:NO];
-	[overlay setLevel:NSMainMenuWindowLevel + 1]; //Alternative: NSFloatingWindowLevel
-	[overlay setAlphaValue:0.4];
-	[overlay setHasShadow:NO];
-	[overlay setIgnoresMouseEvents:YES];
+	overlay.backgroundColor = NSColor.lightGrayColor;
+	overlay.opaque = NO;
+	overlay.level = NSMainMenuWindowLevel + 1; //Alternative: NSFloatingWindowLevel
+	overlay.alphaValue = 0.4;
+	overlay.hasShadow = NO;
+	overlay.ignoresMouseEvents = YES;
 	[overlay makeKeyAndOrderFront:overlay];
 }
 
 - (void)addChild:(Window *)w
 {
-	[_children addObject:w];
-    [w setArea:self];
+	[self.children addObject:w];
+    w.area = self;
 	[self resizeChildren];
 }
 
 - (void)removeChild:(Window *)w
 {
-    [_children removeObject:w];
+    [self.children removeObject:w];
     [self resizeChildren];
 }
 
 - (void)resizeChildren
 {
-    if ([_children count] == 0)
+    if (self.children.count == 0)
         return;
     
-    if (_verticallySplit)
+    if (self.verticallySplit)
     {
-        int heightPerWindow = [self height] / [_children count];
+        int heightPerWindow = self.height / self.children.count;
         
         int i = 0;
-        for (Window *w in _children)
+        for (Window *w in self.children)
         {
             NSRect newRect;
-            newRect.size.width = [self width];
+            newRect.size.width = self.width;
             newRect.size.height = heightPerWindow;
             
-            NSPoint newOrigin = _rect.origin;
+            NSPoint newOrigin = self.rect.origin;
             newOrigin.y += i++ * heightPerWindow;
             
             newRect.origin = newOrigin;
             
-            [w setRect:newRect];
+            w.rect = newRect;
         }
     }
     else
     {
-        int widthPerWindow = [self width] / [_children count];
+        int widthPerWindow = self.width / self.children.count;
         
         int i = 0;
-        for (Window *w in _children)
+        for (Window *w in self.children)
         {
             NSRect newRect;
             newRect.size.width = widthPerWindow;
-            newRect.size.height = [self height];
+            newRect.size.height = self.height;
             
-            NSPoint newOrigin = _rect.origin;
+            NSPoint newOrigin = self.rect.origin;
             newOrigin.x += i++ * widthPerWindow;
             
             newRect.origin = newOrigin;
             
-            [w setRect:newRect];
+            w.rect = newRect;
         }
     }
 }

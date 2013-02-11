@@ -1,7 +1,7 @@
 /*
  * This file is part of the Tile project.
  *
- * Copyright 2009-2012 Crazor <crazor@gmail.com>
+ * Copyright 2009-2013 Crazor <crazor@gmail.com>
  *
  * Tile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,22 +17,21 @@
  * along with Tile.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#import "Area.h"
-
-@class GTMAXUIElement;
+@class Area;
+@class UIElement;
 @class Application;
 
 @interface Window : NSObject
 
-@property(readonly)   GTMAXUIElement  *element;
-@property(readonly)   Application     *application;
-@property(readonly)         BOOL            locked;
-@property(readonly)         NSRect          lockedRect;
-@property(readonly)         NSRect          restoredRect;
-@property(readonly)         BOOL            maximized;
-@property             Area            *area;
+@property(readonly) UIElement   *element;
+@property(readonly) Application *application;
+@property(readonly) BOOL        locked;
+@property(readonly) NSRect      lockedRect;
+@property(readonly) NSRect      restoredRect;
+@property(readonly) BOOL        maximized;
+@property           Area        *area;
 
-- (id)initWithElement:(GTMAXUIElement *)e andApplication:(Application *)a;
+- (id)initWithElement:(UIElement *)e andApplication:(Application *)a;
 - (NSArray *)attributes;
 - (void)moved;
 - (void)resized;

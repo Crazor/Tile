@@ -1,7 +1,7 @@
 /*
  * This file is part of the Tile project.
  *
- * Copyright 2009-2012 Crazor <crazor@gmail.com>
+ * Copyright 2009-2013 Crazor <crazor@gmail.com>
  *
  * Tile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,9 +22,9 @@
 #import "Application.h"
 #import "WindowController.h"
 #import "Window.h"
+#import "Area.h"
 
-
-static NSScreen         *screen;
+static NSScreen *screen;
 
 @implementation TilingController
 
@@ -40,7 +40,7 @@ static NSScreen         *screen;
     return sharedInstance;
 }
 
-- (TilingController *)init
+- (id)init
 {
     if (self = [super init])
     {
@@ -60,12 +60,12 @@ static NSScreen         *screen;
 
 - (void)addStrategy:(id<TilingStrategy>)aStrategy
 {
-    if (![_strategies containsObject:aStrategy])
+    if (![self.strategies containsObject:aStrategy])
     {
-        [_strategies addObject:aStrategy];
-        if (!_tilingStrategy)
+        [self.strategies addObject:aStrategy];
+        if (!self.tilingStrategy)
         {
-            _tilingStrategy = aStrategy;
+            self.tilingStrategy = aStrategy;
         }
     }
 }
@@ -75,28 +75,28 @@ static NSScreen         *screen;
     if (
         // catch Finder's desktop window
         !(
-          [[[w application] identifier] isEqualToString:@"com.apple.finder"]
-          && [w origin].x == 0 && [w origin].y == 0
-          && [w size].width == [[TilingController sharedInstance] screenResolution].width
-          && [w size].height == [[TilingController sharedInstance] screenResolution].height
+          [w.application.identifier isEqualToString:@"com.apple.finder"]
+          && w.origin.x == 0 && w.origin.y == 0
+          && w.size.width == TilingController.sharedInstance.screenResolution.width
+          && w.size.height == TilingController.sharedInstance.screenResolution.height
           )
 
         // catch Xcode
         &&
         !(
-          [[[w application] identifier] isEqualToString:@"com.apple.dt.Xcode"]
+          [w.application.identifier isEqualToString:@"com.apple.dt.Xcode"]
         )
     )
     {
-        [_tilingStrategy addWindow:w];
+        [self.tilingStrategy addWindow:w];
     }
 }
 
 - (void)discoverScreens
 {
-	NSArray *screens = [NSScreen screens];
+	NSArray *screens = NSScreen.screens;
     
-	for (int i = 0; i < [screens count]; i++)
+	for (int i = 0; i < screens.count; i++)
 	{
 		NSScreen *aScreen = screens[i];
 		NSString *mainScreen;
@@ -110,14 +110,14 @@ static NSScreen         *screen;
 			mainScreen = @"";
 		}
 		
-		log(@"Screen %d: Resolution: %@ %@; Visible Frame: %@", i, [aScreen deviceDescription][NSDeviceSize], mainScreen, NSStringFromSize(aScreen.visibleFrame.size));
+		log(@"Screen %d: Resolution: %@ %@; Visible Frame: %@", i, aScreen.deviceDescription[NSDeviceSize], mainScreen, NSStringFromSize(aScreen.visibleFrame.size));
 
 		if (i == 0)
 		{
-			NSRect rect = [aScreen visibleFrame];
+			NSRect rect = aScreen.visibleFrame;
             rect.origin.y = 22;
             _toplevelArea = [[Area alloc] initWithRect:rect];
-            _screenResolution = [[aScreen deviceDescription][NSDeviceSize] sizeValue];
+            _screenResolution = [aScreen.deviceDescription[NSDeviceSize] sizeValue];
 		}
 		else
 		{

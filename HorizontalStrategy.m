@@ -1,7 +1,7 @@
 /*
  * This file is part of the Tile project.
  *
- * Copyright 2009-2012 Crazor <crazor@gmail.com>
+ * Copyright 2009-2013 Crazor <crazor@gmail.com>
  *
  * Tile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,8 +20,7 @@
 #import "HorizontalStrategy.h"
 #import "TilingController.h"
 #import "Window.h"
-
-static HorizontalStrategy *sharedInstance;
+#import "Area.h"
 
 @implementation HorizontalStrategy
 {
@@ -30,12 +29,12 @@ static HorizontalStrategy *sharedInstance;
 
 @synthesize area = _area;
 
-+(void)load
++ (void)load
 {
-    [[TilingController sharedInstance] addStrategy:[HorizontalStrategy sharedInstance]];
+    [TilingController.sharedInstance addStrategy:[HorizontalStrategy sharedInstance]];
 }
 
-+(HorizontalStrategy *)sharedInstance
++ (HorizontalStrategy *)sharedInstance
 {
     static HorizontalStrategy *sharedInstance;
 
@@ -47,17 +46,17 @@ static HorizontalStrategy *sharedInstance;
     return sharedInstance;
 }
 
--(HorizontalStrategy *)init
+- (id)init
 {
     if (self = [super init])
     {
         windows = [[NSMutableArray alloc] init];
-        _area = [[TilingController sharedInstance] toplevelArea];
+        _area = TilingController.sharedInstance.toplevelArea;
     }
     return self;
 }
 
--(void)addWindow:(Window *)aWindow
+- (void)addWindow:(Window *)aWindow
 {
     [windows addObject:aWindow];
 }
@@ -76,7 +75,7 @@ static HorizontalStrategy *sharedInstance;
 
     for (Window *w in windows)
     {
-        if (![w isMinimized])
+        if (!w.isMinimized)
         {
             [windowsToTile addObject:w];
         }
@@ -88,13 +87,13 @@ static HorizontalStrategy *sharedInstance;
         return;
     }
 
-    int height = _area.height / windowsToTile.count;
-    NSPoint currentOrigin = _area.rect.origin;
-    NSSize size = {_area.width, height};
+    int height = self.area.height / windowsToTile.count;
+    NSPoint currentOrigin = self.area.rect.origin;
+    NSSize size = {self.area.width, height};
 	for (Window *w in windowsToTile)
     {
-        [w setOrigin:currentOrigin];
-        [w setSize:size];
+        w.origin = currentOrigin;
+        w.size = size;
         log(@"Window %@ origin %@ size %@", w, NSStringFromPoint(currentOrigin), NSStringFromSize(size));
         currentOrigin.y += height;
     }

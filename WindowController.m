@@ -1,7 +1,7 @@
 /*
  * This file is part of the Tile project.
  *
- * Copyright 2009-2012 Crazor <crazor@gmail.com>
+ * Copyright 2009-2013 Crazor <crazor@gmail.com>
  *
  * Tile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  */
 
 #import "WindowController.h"
-#import "GTMAXUIElement.h"
+#import "UIElement.h"
 #import "Application.h"
 #import "Window.h"
 
@@ -150,7 +150,7 @@
 	[self removeApp:application];
 }
 
-- (Application *)applicationFromElement:(GTMAXUIElement *)e
+- (Application *)applicationFromElement:(UIElement *)e
 {
 	for (Application *a in [self applications])
 	{
@@ -163,7 +163,7 @@
 
 - (Window *)focusedWindow
 {
-	GTMAXUIElement *systemWide = [GTMAXUIElement systemWideElement];
+	UIElement *systemWide = [UIElement systemWideElement];
 	
 	Application *focusedApplication = [self applicationFromElement:
                                        [systemWide accessibilityAttributeValue:

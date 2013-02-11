@@ -1,7 +1,7 @@
 /*
  * This file is part of the Tile project.
  *
- * Copyright 2009-2012 Crazor <crazor@gmail.com>
+ * Copyright 2009-2013 Crazor <crazor@gmail.com>
  *
  * Tile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,22 +18,22 @@
  */
 
 @class Window;
-@class GTMAXUIElement;
+@class UIElement;
 
 @interface Application : NSObject
 
 @property(copy)		NSString		*identifier;
 @property(copy)		NSString		*name;
 @property(assign)	pid_t			pid;
-@property(strong)	GTMAXUIElement	*element;
+@property(strong)	UIElement	*element;
 @property(strong)	NSMutableArray	*windows;
 
 - (id)initWithRunningApplication:(NSRunningApplication *)runningApplication;
 - (NSArray *)attributes;
 - (void)registerAXObserver;
 - (void)unregisterAXObserver;
-- (void)windowCreated:(GTMAXUIElement *)window;
-- (void)windowDestroyed:(GTMAXUIElement *)window;
-- (Window *)windowFromElement:(GTMAXUIElement *)e;
+- (void)windowCreated:(UIElement *)window;
+- (void)windowDestroyed:(UIElement *)window;
+- (Window *)windowFromElement:(UIElement *)e;
 
 @end

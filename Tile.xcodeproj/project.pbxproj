@@ -10,12 +10,12 @@
 		6E1CA52D14E02089002EAA84 /* VerticalStrategy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E1CA52C14E02089002EAA84 /* VerticalStrategy.m */; };
 		6E2A63570E40B6B900501C12 /* Area.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E2A63560E40B6B900501C12 /* Area.m */; };
 		6E4CAC780E30F0CD0084073D /* WindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4CAC770E30F0CD0084073D /* WindowController.m */; };
-		6E4CACDD0E310A460084073D /* GTMAXUIElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4CACDC0E310A460084073D /* GTMAXUIElement.m */; };
 		6E4CADE30E325CD40084073D /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4CADE20E325CD40084073D /* Window.m */; };
 		6E4CADEE0E325DA70084073D /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4CADED0E325DA70084073D /* Application.m */; };
 		6E4CB0040E34FEDB0084073D /* EventController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E4CB0030E34FEDB0084073D /* EventController.m */; };
 		6E4CB01C0E35027E0084073D /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E4CB01B0E35027E0084073D /* Carbon.framework */; };
 		6E8672D814E3EC8300829E45 /* TilingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E8672D714E3EC8300829E45 /* TilingController.m */; };
+		6EAF2BEC16C903FF0041D3BA /* UIElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EAF2BEB16C903FF0041D3BA /* UIElement.m */; };
 		6EEEF7721605C9FF00326BC0 /* HorizontalStrategy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EEEF7711605C9FE00326BC0 /* HorizontalStrategy.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -35,21 +35,21 @@
 		6E1CA52C14E02089002EAA84 /* VerticalStrategy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = VerticalStrategy.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6E2A63550E40B6B900501C12 /* Area.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Area.h; sourceTree = "<group>"; };
 		6E2A63560E40B6B900501C12 /* Area.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Area.m; sourceTree = "<group>"; };
-		6E4CAC760E30F0CD0084073D /* WindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowController.h; sourceTree = "<group>"; };
+		6E4CAC760E30F0CD0084073D /* WindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WindowController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		6E4CAC770E30F0CD0084073D /* WindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = WindowController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		6E4CACDB0E310A460084073D /* GTMAXUIElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMAXUIElement.h; sourceTree = "<group>"; };
-		6E4CACDC0E310A460084073D /* GTMAXUIElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMAXUIElement.m; sourceTree = "<group>"; };
-		6E4CADE10E325CD40084073D /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Window.h; sourceTree = "<group>"; };
+		6E4CADE10E325CD40084073D /* Window.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Window.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		6E4CADE20E325CD40084073D /* Window.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Window.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		6E4CADEC0E325DA70084073D /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Application.h; sourceTree = "<group>"; };
+		6E4CADEC0E325DA70084073D /* Application.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Application.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		6E4CADED0E325DA70084073D /* Application.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Application.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		6E4CB0020E34FEDB0084073D /* EventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventController.h; sourceTree = "<group>"; };
+		6E4CB0020E34FEDB0084073D /* EventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = EventController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		6E4CB0030E34FEDB0084073D /* EventController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = EventController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		6E4CB01B0E35027E0084073D /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		6E8672D614E3EC8300829E45 /* TilingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TilingController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		6E8672D714E3EC8300829E45 /* TilingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TilingController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		6EAF2BEA16C903FF0041D3BA /* UIElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIElement.h; sourceTree = "<group>"; };
+		6EAF2BEB16C903FF0041D3BA /* UIElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIElement.m; sourceTree = "<group>"; };
 		6EEEF7701605C9FE00326BC0 /* HorizontalStrategy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalStrategy.h; sourceTree = "<group>"; };
-		6EEEF7711605C9FE00326BC0 /* HorizontalStrategy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalStrategy.m; sourceTree = "<group>"; };
+		6EEEF7711605C9FE00326BC0 /* HorizontalStrategy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HorizontalStrategy.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Tile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -89,8 +89,8 @@
 				6E4CADE20E325CD40084073D /* Window.m */,
 				6E4CAC760E30F0CD0084073D /* WindowController.h */,
 				6E4CAC770E30F0CD0084073D /* WindowController.m */,
-				6E4CACDB0E310A460084073D /* GTMAXUIElement.h */,
-				6E4CACDC0E310A460084073D /* GTMAXUIElement.m */,
+				6EAF2BEA16C903FF0041D3BA /* UIElement.h */,
+				6EAF2BEB16C903FF0041D3BA /* UIElement.m */,
 			);
 			name = Sources;
 			sourceTree = "<group>";
@@ -214,7 +214,6 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				6E4CAC780E30F0CD0084073D /* WindowController.m in Sources */,
-				6E4CACDD0E310A460084073D /* GTMAXUIElement.m in Sources */,
 				6E4CADE30E325CD40084073D /* Window.m in Sources */,
 				6E4CADEE0E325DA70084073D /* Application.m in Sources */,
 				6E4CB0040E34FEDB0084073D /* EventController.m in Sources */,
@@ -222,6 +221,7 @@
 				6E1CA52D14E02089002EAA84 /* VerticalStrategy.m in Sources */,
 				6E8672D814E3EC8300829E45 /* TilingController.m in Sources */,
 				6EEEF7721605C9FF00326BC0 /* HorizontalStrategy.m in Sources */,
+				6EAF2BEC16C903FF0041D3BA /* UIElement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

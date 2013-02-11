@@ -1,7 +1,7 @@
 /*
  * This file is part of the Tile project.
  *
- * Copyright 2009-2012 Crazor <crazor@gmail.com>
+ * Copyright 2009-2013 Crazor <crazor@gmail.com>
  *
  * Tile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  */
 
 #import "EventController.h"
-#import "GTMAXUIElement.h"
+#import "UIElement.h"
 #import "WindowController.h"
 #import "Application.h"
 #import "Window.h"
@@ -69,23 +69,23 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
     {
         [self registerLeaderHandler];
 
-        WindowController *wc = [WindowController sharedInstance];
+        WindowController *wc = WindowController.sharedInstance;
 
         [self setSelector:@selector(lockCurrentWindow)		ofTarget:wc		forActionID:37]; // L
         [self setSelector:@selector(quit)					ofTarget:self	forActionID:12]; // Q
         [self setSelector:@selector(maximizeCurrentWindow)	ofTarget:wc		forActionID:46]; // M
         [self setSelector:@selector(centerCurrentWindow)	ofTarget:wc		forActionID: 8]; // C
 
-        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver: self
-                                                               selector: @selector(userDefaultsDidChange:)
-                                                                   name: NSUserDefaultsDidChangeNotification
-                                                                 object: NULL];
+        [NSWorkspace.sharedWorkspace.notificationCenter addObserver: self
+                                                           selector: @selector(userDefaultsDidChange:)
+                                                               name: NSUserDefaultsDidChangeNotification
+                                                             object: NULL];
     }
 }
 
 - (void)userDefaultsDidChange: (NSNotification *)notification
 {
-	log(@"User Defaults did change. Name: %@", [notification name]);
+	log(@"User Defaults did change. Name: %@", notification.name);
 }
 
 - (void)registerLeaderHandler
@@ -200,7 +200,7 @@ static OSStatus applicationEventHandler(EventHandlerCallRef nextHandler, EventRe
 
 - (void)quit
 {
-	[[NSApplication sharedApplication] terminate:self];
+	[NSApplication.sharedApplication terminate:self];
 }
 
 @end

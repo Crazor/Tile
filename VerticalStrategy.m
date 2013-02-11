@@ -1,7 +1,7 @@
 /*
  * This file is part of the Tile project.
  *
- * Copyright 2009-2012 Crazor <crazor@gmail.com>
+ * Copyright 2009-2013 Crazor <crazor@gmail.com>
  *
  * Tile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
 #import "VerticalStrategy.h"
 #import "TilingController.h"
 #import "Window.h"
+#import "Area.h"
 
 static VerticalStrategy *sharedInstance;
 
@@ -32,7 +33,7 @@ static VerticalStrategy *sharedInstance;
 
 +(void)load
 {
-    [[TilingController sharedInstance] addStrategy:[VerticalStrategy sharedInstance]];
+    [TilingController.sharedInstance addStrategy:VerticalStrategy.sharedInstance];
 }
 
 +(VerticalStrategy *)sharedInstance
@@ -47,7 +48,7 @@ static VerticalStrategy *sharedInstance;
     return sharedInstance;
 }
 
--(VerticalStrategy *)init
+-(id)init
 {
     if (self = [super init])
     {
@@ -76,7 +77,7 @@ static VerticalStrategy *sharedInstance;
 
     for (Window *w in windows)
     {
-        if (![w isMinimized])
+        if (!w.isMinimized)
         {
             [windowsToTile addObject:w];
         }
@@ -88,13 +89,13 @@ static VerticalStrategy *sharedInstance;
         return;
     }
 
-    int width = _area.width / windowsToTile.count;
+    int width = self.area.width / windowsToTile.count;
     NSPoint currentOrigin = {0, 0};
-    NSSize size = {width, _area.height};
+    NSSize size = {width, self.area.height};
 	for (Window *w in windowsToTile)
     {
-        [w setOrigin:currentOrigin];
-        [w setSize:size];
+        w.origin = currentOrigin;
+        w.size = size;
         log(@"Window %@ origin %@ size %@", w, NSStringFromPoint(currentOrigin), NSStringFromSize(size));
         currentOrigin.x += width;
     }

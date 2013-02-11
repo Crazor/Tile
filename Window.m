@@ -1,7 +1,7 @@
 /*
  * This file is part of the Tile project.
  *
- * Copyright 2009-2012 Crazor <crazor@gmail.com>
+ * Copyright 2009-2013 Crazor <crazor@gmail.com>
  *
  * Tile is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  */
 
 #import "Window.h"
-#import "GTMAXUIElement.h"
+#import "UIElement.h"
 #import "Application.h"
 #import "Area.h"
 
@@ -55,7 +55,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 {
 	Window *self = (__bridge_transfer Window *)refcon;
 	
-	if ([[self element] isEqual:[GTMAXUIElement elementWithElement:elementRef]])
+	if ([[self element] isEqual:[[UIElement alloc] initWithElementRef:elementRef]])
 	{
 		if ([(__bridge NSString *)notification isEqualToString:@"AXWindowMoved"])
 		{
@@ -85,7 +85,7 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 	AXObserverRef   observer;
 }
 
-- (id)initWithElement:(GTMAXUIElement *)e andApplication:(Application *)a
+- (id)initWithElement:(UIElement *)e andApplication:(Application *)a
 {
 	if ((self = [super init]))
 	{
@@ -127,27 +127,27 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 	CFRunLoopAddSource([[NSRunLoop currentRunLoop] getCFRunLoop], AXObserverGetRunLoopSource(observer), kCFRunLoopDefaultMode);
 
-	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowMovedNotification, (__bridge_retained void *)self))
+	if (AXObserverAddNotification(observer, self.application.element.elementRef, kAXWindowMovedNotification, (__bridge_retained void *)self))
 	{
 		log(@"Error adding kAXWindowMovedNotification for %@", self);
 		return;
 	}
-	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowResizedNotification, (__bridge_retained void *)self))
+	if (AXObserverAddNotification(observer, self.application.element.elementRef, kAXWindowResizedNotification, (__bridge_retained void *)self))
 	{
 		log(@"Error adding kAXWindowResizedNotification for %@", self);
 		return;
 	}
-	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowMiniaturizedNotification, (__bridge_retained void *)self))
+	if (AXObserverAddNotification(observer, self.application.element.elementRef, kAXWindowMiniaturizedNotification, (__bridge_retained void *)self))
 	{
 		log(@"Error adding kAXWindowMiniaturizedNotification for %@", self);
 		return;
 	}
-	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXWindowDeminiaturizedNotification, (__bridge_retained void *)self))
+	if (AXObserverAddNotification(observer, self.application.element.elementRef, kAXWindowDeminiaturizedNotification, (__bridge_retained void *)self))
 	{
 		log(@"Error adding kAXWindowDeminiaturizedNotification for %@", self);
 		return;
 	}
-	if (AXObserverAddNotification(observer, [[[self application] element] element], kAXUIElementDestroyedNotification, (__bridge_retained void *)self))
+	if (AXObserverAddNotification(observer, self.application.element.elementRef, kAXUIElementDestroyedNotification, (__bridge_retained void *)self))
 	{
 		log(@"Error adding kAXUIElementDestroyedNotification for %@", self);
 		return;
@@ -156,11 +156,11 @@ static void axObserverCallback(AXObserverRef observer, AXUIElementRef elementRef
 
 - (void)unregisterAXObserver
 {
-	AXObserverRemoveNotification(observer, [[[self application] element] element], kAXWindowMovedNotification);
-	AXObserverRemoveNotification(observer, [[[self application] element] element], kAXWindowResizedNotification);
-	AXObserverRemoveNotification(observer, [[[self application] element] element], kAXWindowMiniaturizedNotification);
-	AXObserverRemoveNotification(observer, [[[self application] element] element], kAXWindowDeminiaturizedNotification);
-    AXObserverRemoveNotification(observer, [[[self application] element] element], kAXUIElementDestroyedNotification);
+	AXObserverRemoveNotification(observer, self.application.element.elementRef, kAXWindowMovedNotification);
+	AXObserverRemoveNotification(observer, self.application.element.elementRef, kAXWindowResizedNotification);
+	AXObserverRemoveNotification(observer, self.application.element.elementRef, kAXWindowMiniaturizedNotification);
+	AXObserverRemoveNotification(observer, self.application.element.elementRef, kAXWindowDeminiaturizedNotification);
+    AXObserverRemoveNotification(observer, self.application.element.elementRef, kAXUIElementDestroyedNotification);
     
     CFRunLoopRemoveSource([[NSRunLoop currentRunLoop] getCFRunLoop], AXObserverGetRunLoopSource(observer), kCFRunLoopDefaultMode);
 }
