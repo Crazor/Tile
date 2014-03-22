@@ -57,12 +57,77 @@
 
 - (NSString *)stringValueForAttribute:(NSString *)attribute
 {
-    return nil;
+    CFTypeRef cfValue;
+
+    AXError e = AXUIElementCopyAttributeValue(_elementRef, (__bridge CFStringRef)attribute, &cfValue);
+
+    if (e != kAXErrorSuccess)
+    {
+        log(@"AXError %d", e);
+        return nil;
+    }
+
+    return (__bridge id)cfValue;
 }
+
 
 - (void)setStringValue:(NSString *)value forAttribute:(NSString *)attribute
 {
     return;
+}
+
+- (CFTypeRef)accessibilityCopyAttributeCFValue:(NSString*)attribute
+{
+	CFTypeRef value = NULL;
+	AXError error = AXUIElementCopyAttributeValue(_elementRef, (__bridge CFStringRef)attribute, &value);
+	if (error == kAXErrorNoValue)
+    {
+		value = kCFNull;
+	}
+    else if (error)
+    {
+		value = nil;
+	}
+	return value;
+}
+
+- (id)accessibilityAttributeValue:(NSString*)attribute
+{
+	CFTypeRef value = [self accessibilityCopyAttributeCFValue:attribute];
+	if (!value)
+    {
+        return nil;
+    }
+
+	id nsValue = nil;
+	CFTypeID axTypeID = AXUIElementGetTypeID();
+
+	if (CFGetTypeID(value) == axTypeID)
+    {
+		nsValue = [[UIElement alloc] initWithElementRef:(AXUIElementRef)value];
+	}
+    else if (CFGetTypeID(value) == CFArrayGetTypeID())
+    {
+		nsValue = [NSMutableArray array];
+		NSEnumerator *enumerator = [(__bridge NSArray *)value objectEnumerator];
+		id object;
+		while ((object = [enumerator nextObject]))
+        {
+			if (CFGetTypeID((__bridge CFTypeRef)object) == axTypeID)
+            {
+				[nsValue addObject:[[UIElement alloc] initWithElementRef:(__bridge AXUIElementRef)object]];
+			}
+            else
+            {
+				[nsValue addObject:object];
+			}
+		}
+	}
+    else
+    {
+		nsValue = (__bridge id)value;
+	}
+	return nsValue;
 }
 
 @end

@@ -43,4 +43,14 @@
     return YES;
 }
 
+- (NSString *)applicationName
+{
+    return [[NSProcessInfo processInfo] processName];
+}
+
+- (NSInteger)windowCount
+{
+    return [NSApplication sharedApplication].windows.count;
+}
+
 @end

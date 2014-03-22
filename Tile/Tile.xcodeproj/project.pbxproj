@@ -15,6 +15,16 @@
 		6E7AA19B18DC4CAF00213624 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E7AA17A18DC4CAF00213624 /* Cocoa.framework */; };
 		6E7AA1A318DC4CAF00213624 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6E7AA1A118DC4CAF00213624 /* InfoPlist.strings */; };
 		6E7AA1A518DC4CAF00213624 /* TileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E7AA1A418DC4CAF00213624 /* TileTests.m */; };
+		6E963E4118DCDA8E00ADDE24 /* UIElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3FDFC18DCBFCC00B06143 /* UIElement.m */; };
+		6E963E4618DCE83100ADDE24 /* TileTesterLauncher.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E963E4518DCE83100ADDE24 /* TileTesterLauncher.m */; };
+		6E963E4918DCEF0E00ADDE24 /* WindowControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E963E4818DCEF0E00ADDE24 /* WindowControllerTests.m */; };
+		6E963E4B18DCF03500ADDE24 /* WindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3FE0218DCBFCC00B06143 /* WindowController.m */; };
+		6E963E4C18DCF05F00ADDE24 /* Application.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3FE0918DCC1AD00B06143 /* Application.m */; };
+		6E963E4D18DCF06C00ADDE24 /* Window.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3FE0018DCBFCC00B06143 /* Window.m */; };
+		6E963E4E18DCF07600ADDE24 /* Area.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3FDF018DCBFB600B06143 /* Area.m */; };
+		6E963E4F18DCF09100ADDE24 /* TilingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3FDF918DCBFCC00B06143 /* TilingController.m */; };
+		6E963E5118DCF92700ADDE24 /* ApplicationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E963E5018DCF92700ADDE24 /* ApplicationTests.m */; };
+		6EA469E018DCCE0900FEEAE8 /* UIElementTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EA469DF18DCCE0900FEEAE8 /* UIElementTests.m */; };
 		6EE3FDF118DCBFB600B06143 /* Area.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3FDF018DCBFB600B06143 /* Area.m */; };
 		6EE3FDF618DCBFC200B06143 /* EventController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3FDF318DCBFC200B06143 /* EventController.m */; };
 		6EE3FDF718DCBFC200B06143 /* HorizontalStrategy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6EE3FDF518DCBFC200B06143 /* HorizontalStrategy.m */; };
@@ -74,6 +84,11 @@
 		6E7AA1A218DC4CAF00213624 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6E7AA1A418DC4CAF00213624 /* TileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TileTests.m; sourceTree = "<group>"; };
 		6E7AA1EE18DC4E2B00213624 /* TileTester.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TileTester.xcodeproj; path = TileTester/TileTester.xcodeproj; sourceTree = "<group>"; };
+		6E963E4418DCE83100ADDE24 /* TileTesterLauncher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileTesterLauncher.h; sourceTree = "<group>"; };
+		6E963E4518DCE83100ADDE24 /* TileTesterLauncher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileTesterLauncher.m; sourceTree = "<group>"; };
+		6E963E4818DCEF0E00ADDE24 /* WindowControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WindowControllerTests.m; sourceTree = "<group>"; };
+		6E963E5018DCF92700ADDE24 /* ApplicationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationTests.m; sourceTree = "<group>"; };
+		6EA469DF18DCCE0900FEEAE8 /* UIElementTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIElementTests.m; sourceTree = "<group>"; };
 		6EE3FDEF18DCBFB600B06143 /* Area.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Area.h; sourceTree = "<group>"; };
 		6EE3FDF018DCBFB600B06143 /* Area.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Area.m; sourceTree = "<group>"; };
 		6EE3FDF218DCBFC200B06143 /* EventController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventController.h; sourceTree = "<group>"; };
@@ -198,7 +213,12 @@
 			isa = PBXGroup;
 			children = (
 				6E7AA1EE18DC4E2B00213624 /* TileTester.xcodeproj */,
+				6E963E5018DCF92700ADDE24 /* ApplicationTests.m */,
+				6E963E4418DCE83100ADDE24 /* TileTesterLauncher.h */,
+				6E963E4518DCE83100ADDE24 /* TileTesterLauncher.m */,
 				6E7AA1A418DC4CAF00213624 /* TileTests.m */,
+				6EA469DF18DCCE0900FEEAE8 /* UIElementTests.m */,
+				6E963E4818DCEF0E00ADDE24 /* WindowControllerTests.m */,
 				6E7AA19F18DC4CAF00213624 /* Supporting Files */,
 			);
 			path = TileTests;
@@ -359,7 +379,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E963E4F18DCF09100ADDE24 /* TilingController.m in Sources */,
+				6E963E4E18DCF07600ADDE24 /* Area.m in Sources */,
+				6E963E4D18DCF06C00ADDE24 /* Window.m in Sources */,
+				6E963E4C18DCF05F00ADDE24 /* Application.m in Sources */,
+				6E963E4B18DCF03500ADDE24 /* WindowController.m in Sources */,
+				6E963E4118DCDA8E00ADDE24 /* UIElement.m in Sources */,
+				6EA469E018DCCE0900FEEAE8 /* UIElementTests.m in Sources */,
+				6E963E4618DCE83100ADDE24 /* TileTesterLauncher.m in Sources */,
+				6E963E4918DCEF0E00ADDE24 /* WindowControllerTests.m in Sources */,
 				6E7AA1A518DC4CAF00213624 /* TileTests.m in Sources */,
+				6E963E5118DCF92700ADDE24 /* ApplicationTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,6 +495,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -505,7 +536,6 @@
 		6E7AA1AC18DC4CAF00213624 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Tile.app/Contents/MacOS/Tile";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -519,7 +549,6 @@
 				);
 				INFOPLIST_FILE = "TileTests/TileTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Debug;
@@ -527,7 +556,6 @@
 		6E7AA1AD18DC4CAF00213624 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Tile.app/Contents/MacOS/Tile";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
@@ -537,7 +565,6 @@
 				GCC_PREFIX_HEADER = "Tile/Tile-Prefix.pch";
 				INFOPLIST_FILE = "TileTests/TileTests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;

@@ -22,5 +22,7 @@
 @protocol TileTesterProtocol <NSObject>
 
 - (BOOL)testConnection;
+- (NSString *)applicationName;
+- (NSInteger)windowCount;
 
 @end

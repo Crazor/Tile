@@ -18,8 +18,9 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "TileTesterProtocol.h"
 
-@interface TesterServer : NSObject
+@interface TesterServer : NSObject <TileTesterProtocol>
 
 + (void)setupTesterServer;
 

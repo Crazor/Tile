@@ -18,60 +18,33 @@
  */
 
 #import <XCTest/XCTest.h>
-#import "TileTester/TileTester/TileTesterProtocol.h"
+#import "TileTesterLauncher.h"
 
 @interface TileTests : XCTestCase
 
-@property NSTask *task;
-@property BOOL testerRunning;
-@property id tester;
+@property TileTesterLauncher *launcher;
 
 @end
 
 @implementation TileTests
 
-+ (void)setUp
-{
-    [[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(testerRunningNotification:) name:@"TileTesterReady" object:nil];
-}
 
 - (void)setUp
 {
     [super setUp];
-}
-
-- (void)launchTester
-{
-    _task = [NSTask launchedTaskWithLaunchPath:[NSBundle.mainBundle.bundlePath stringByAppendingPathComponent:@"../TileTester.app/Contents/MacOS/TileTester"] arguments:@[]];
-    
-    while(!_testerRunning)
-    {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-    }
-    
-    NSConnection *connection = [NSConnection connectionWithRegisteredName:@"TesterServer" host:nil];
-    connection.requestTimeout = 10;
-    connection.replyTimeout = 10;
-    
-    _tester = [connection rootProxy];
-    [_tester setProtocolForProxy:@protocol(TileTesterProtocol)];
-}
-
-- (void)testerRunningNotification:(NSNotification *)notification
-{
-    _testerRunning = YES;
+    _launcher = [[TileTesterLauncher alloc] init];
 }
 
 - (void)tearDown
 {
-    [_task terminate];
+    [_launcher terminate];
     [super tearDown];
 }
 
 - (void)testRunning
 {
-    [self launchTester];
-    XCTAssertTrue([_tester testConnection], @"Connection to Tester failed.");
+    [_launcher launchTester];
+    XCTAssertTrue([_launcher.tester testConnection], @"Connection to Tester failed.");
 }
 
 @end

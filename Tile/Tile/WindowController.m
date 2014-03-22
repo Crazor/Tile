@@ -72,6 +72,10 @@
                     break;
             }
         }
+        else
+        {
+            break;
+        }
     }
 }
 

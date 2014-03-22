@@ -37,6 +37,14 @@
                BlueprintName = "TileTests"
                ReferencedContainer = "container:Tile.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "ApplicationTests/testWindowCount">
+               </Test>
+               <Test
+                  Identifier = "WindowControllerTests/testSharedInstance">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
       <MacroExpansion>
